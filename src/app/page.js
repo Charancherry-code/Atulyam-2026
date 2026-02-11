@@ -1,5 +1,5 @@
 import Image from "next/image";
 
 export default function Home() {
-  return <h1>ATULYAM 2026</h1>;
+  return <h1 className="text-white">ATULYAM 2026</h1>;
 }
