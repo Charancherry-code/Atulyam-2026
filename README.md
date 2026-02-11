@@ -64,45 +64,6 @@ A cinematic, high-performance 3D landing page website for a cultural fest celebr
 - **Tailwind CSS 4** – Utility-first styling
 - **PostCSS 4** – CSS transformation
 
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js 16+ (recommended 18+)
-- npm or yarn
-
-### Installation
-
-```bash
-# Navigate to project directory
-cd atulyam
-
-# Install dependencies
-npm install
-
-# If you encounter peer dependency warnings, use:
-npm install --legacy-peer-deps
-```
-
-### Development
-
-```bash
-# Start development server (opens at http://localhost:5173)
-npm run dev
-
-# The server will auto-reload on file changes
-# Access at: http://localhost:5173
-```
-
-### Production Build
-
-```bash
-# Build optimized production bundle
-npm run build
-
-# Preview production build locally
-npm run preview
-```
 
 ## 📁 Project Structure
 
