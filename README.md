@@ -54,6 +54,9 @@ cd atulyam
 
 # Install dependencies
 npm install
+
+# If you encounter peer dependency warnings, use:
+npm install --legacy-peer-deps
 ```
 
 ### Development
@@ -63,6 +66,7 @@ npm install
 npm run dev
 
 # The server will auto-reload on file changes
+# Access at: http://localhost:5173
 ```
 
 ### Production Build
