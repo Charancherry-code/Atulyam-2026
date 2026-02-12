@@ -23,57 +23,15 @@ body {
 
 #root {
   width: 100%;
-  height: 100%;
-}
-
-/* Canvas styling */
-canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-/* Smooth scroll */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Custom glow effect */
-.glow-text {
-  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
-}
-
-.glow-button {
-  box-shadow:
-    0 0 20px rgba(255, 215, 0, 0.5),
-    0 0 40px rgba(255, 105, 180, 0.3);
+  min-height: 100vh;
 }
 
 /* Performance optimizations */
-* {
-  will-change: auto;
-}
-
 button {
   will-change: transform, box-shadow;
 }
 
-/* Sakura bloom animation */
-@keyframes sakuraBloom {
-  0% {
-    opacity: 0;
-    transform: translateY(-10px) scale(0.8);
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(100px) scale(0.2);
-  }
-}
-
-/* Hide scrollbar but keep functionality */
+/* Custom scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -86,9 +44,10 @@ button {
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 215, 0, 0.4);
   border-radius: 4px;
+  transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 215, 0, 0.6);
-  cursor: pointer;
 }
+
