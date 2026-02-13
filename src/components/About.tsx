@@ -1,4 +1,4 @@
-import { useEffect, useRef, FC } from "react";
+import React, { useEffect, useRef, FC } from "react";
 import { gsap } from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 
@@ -45,7 +45,7 @@ const About: FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen flex items-center justify-center bg-linear-to-b from-night-dark via-night-indigo to-night-dark py-20 px-6"
+      className="relative min-h-screen flex items-center justify-center bg-gradient-to-b from-night-dark via-night-indigo to-night-dark py-20 px-6"
     >
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
@@ -57,13 +57,15 @@ const About: FC = () => {
         <h2
           ref={titleRef}
           className="text-4xl md:text-6xl font-bold text-center mb-16"
-          style={{
-            background:
-              "linear-gradient(135deg, #FFD700 0%, #FF69B4 50%, #FFED4E 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          } as React.CSSProperties}
+          style={
+            {
+              background:
+                "linear-gradient(135deg, #FFD700 0%, #FF69B4 50%, #FFED4E 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            } as React.CSSProperties
+          }
         >
           About ATULYAM
         </h2>
@@ -122,7 +124,7 @@ const About: FC = () => {
           </div>
 
           <div className="mt-16">
-            <button className="px-12 py-4 bg-linear-to-r from-gold to-sakura-pink text-night-dark font-bold text-lg rounded-full hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-2xl">
+            <button className="px-12 py-4 bg-gradient-to-r from-gold to-sakura-pink text-night-dark font-bold text-lg rounded-full hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-2xl">
               Join the Celebration
             </button>
           </div>
