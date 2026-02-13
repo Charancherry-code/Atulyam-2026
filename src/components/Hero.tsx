@@ -1,4 +1,4 @@
-import { useEffect, useRef, FC } from "react";
+import React, { useEffect, useRef, FC } from "react";
 import { gsap } from "gsap";
 
 const Hero: FC = () => {
@@ -23,7 +23,7 @@ const Hero: FC = () => {
           duration: 1,
           ease: "power3.out",
         },
-        "-=0.8"
+        "-=0.8",
       )
       .from(
         descRef.current,
@@ -33,7 +33,7 @@ const Hero: FC = () => {
           duration: 0.8,
           ease: "power3.out",
         },
-        "-=0.6"
+        "-=0.6",
       );
 
     gsap.to(titleRef.current, {
@@ -46,7 +46,7 @@ const Hero: FC = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-linear-to-b from-night-dark via-night-indigo to-night-dark overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-b from-night-dark via-night-indigo to-night-dark overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-10 w-32 h-32 bg-sakura-pink opacity-10 rounded-full blur-3xl animate-pulse-slow"></div>
@@ -81,14 +81,16 @@ const Hero: FC = () => {
         <h1
           ref={titleRef}
           className="text-6xl md:text-8xl lg:text-9xl font-black mb-6 tracking-wider"
-          style={{
-            background:
-              "linear-gradient(135deg, #FFD700 0%, #FF69B4 50%, #FFED4E 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-            filter: "drop-shadow(0 0 30px rgba(255, 215, 0, 0.3))",
-          } as React.CSSProperties}
+          style={
+            {
+              background:
+                "linear-gradient(135deg, #FFD700 0%, #FF69B4 50%, #FFED4E 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              filter: "drop-shadow(0 0 30px rgba(255, 215, 0, 0.3))",
+            } as React.CSSProperties
+          }
         >
           ATULYAM
         </h1>
@@ -96,12 +98,14 @@ const Hero: FC = () => {
         <h2
           ref={subtitleRef}
           className="text-3xl md:text-5xl lg:text-6xl font-light mb-8 tracking-widest"
-          style={{
-            background: "linear-gradient(90deg, #FF69B4 0%, #FFD700 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          } as React.CSSProperties}
+          style={
+            {
+              background: "linear-gradient(90deg, #FF69B4 0%, #FFD700 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            } as React.CSSProperties
+          }
         >
           Haru no Stars 🌸
         </h2>
