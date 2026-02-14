@@ -24,6 +24,13 @@ A beautiful, elegant landing page for a cultural fest celebrating new beginnings
 - **Scroll-triggered animations** for engaging reveals
 - **Call-to-action button** for participation
 
+### 📌 Footer Section
+
+- **Company information** and links
+- **Quick navigation** with responsive layout
+- **Social media links** for community engagement
+- **Copyright information** with dynamic year
+
 ### 🎨 Design Elements
 
 - **Sakura pink and gold color palette**
@@ -31,13 +38,26 @@ A beautiful, elegant landing page for a cultural fest celebrating new beginnings
 - **Smooth GSAP animations** for modern feel
 - **Responsive design** for all screen sizes
 - **Japanese-inspired aesthetic** throughout
+- **Custom CSS utilities** for animations and effects
+
+### 🧩 Code Organization
+
+- **TypeScript interfaces** for type safety
+- **Utility functions** for common operations (debounce, email validation, date formatting)
+- **Animation presets** with GSAP configuration
+- **Environment configuration** for development/production
+- **Color constants** and gradient definitions
+- **Helper utilities** for string manipulation and formatting
 
 ## 🛠️ Tech Stack
 
 - **React 18.3.1** – Modern UI framework
+- **TypeScript 5.3.3** – Type-safe JavaScript
 - **Vite 5.0.11** – Fast build tool & dev server
 - **GSAP 3.12.2** – Professional animation library
 - **Tailwind CSS 4** – Utility-first styling
+- **Prettier 3** – Code formatter
+- **ESLint 9** – Code quality tool
 
 ## 🚀 Getting Started
 
@@ -67,6 +87,12 @@ npm run dev
 
 # The server will auto-reload on file changes
 # Access at: http://localhost:5173
+
+# Run linter to check code quality
+npm run lint
+
+# Format code with Prettier
+npm run format
 ```
 
 ### Production Build
@@ -85,24 +111,39 @@ npm run preview
 atulyam/
 ├── src/
 │   ├── components/
-│   │   ├── Hero.jsx       # Hero section with branding
-│   │   └── About.jsx      # About ATULYAM section
+│   │   ├── Hero.tsx           # Hero section with branding
+│   │   ├── About.tsx          # About ATULYAM section
+│   │   └── Footer.tsx         # Footer with links and copyright
+│   ├── config/
+│   │   └── env.ts             # Environment configuration
+│   ├── constants/
+│   │   └── colors.ts          # Color and gradient constants
+│   ├── types/
+│   │   └── index.ts           # TypeScript interfaces and types
+│   ├── utils/
+│   │   ├── animations.ts      # GSAP animation presets
+│   │   └── helpers.ts         # Utility functions
 │   ├── styles/
-│   │   └── index.css      # Global styles
-│   ├── App.jsx            # Main app component
-│   └── main.jsx           # React entry point
-├── public/                # Static assets
-├── index.html             # HTML entry point
-├── vite.config.js        # Vite configuration
-├── tailwind.config.js    # Tailwind CSS config
-└── package.json          # Dependencies
+│   │   ├── index.css          # Global styles
+│   │   ├── globals.css        # CSS variables and resets
+│   │   └── utilities.css      # Custom utility classes
+│   ├── App.tsx                # Main app component
+│   └── main.tsx               # React entry point
+├── public/                    # Static assets
+├── index.html                 # HTML entry point
+├── vite.config.ts            # Vite configuration
+├── tsconfig.json             # TypeScript configuration
+├── tailwind.config.js        # Tailwind CSS config
+├── .prettierrc.json          # Prettier formatting config
+├── .gitattributes            # Git line ending config
+└── package.json              # Dependencies
 ```
 
 ## 🎨 Color Palette
 
 ```css
---sakura-pink: #ff69b4 --sakura-light: #ffb7d5 --night-indigo: #0a0e27
-  --night-dark: #050812 --gold: #ffd700 --gold-light: #ffed4e;
+--sakura-pink: #ff69b4 --sakura-light: #ffb7d5 --night-indigo: #0a0e27 --night-dark: #050812
+  --gold: #ffd700 --gold-light: #ffed4e;
 ```
 
 ## ⚙️ Animations
@@ -113,6 +154,17 @@ atulyam/
 - **Subtitle** appears with staggered timing
 - **About section** reveals on scroll using ScrollTrigger
 - **Feature cards** animate sequentially
+
+### Custom CSS Animations
+
+- **Fade-in** – Smooth opacity transition
+- **Slide-up** – Movement with fade effect
+- **Pulse-glow** – Radiant glowing effect
+- **Stagger animations** – Sequential element reveals
+
+### Animation Presets
+
+The project includes reusable GSAP animation configurations in `src/utils/animations.ts` for consistent motion design across components.
 
 ## 📱 Responsive Design
 
