@@ -26,7 +26,9 @@ export default function Hero() {
         <p className="text-sm sm:text-base md:text-lg text-gray-300 italic mb-4 tracking-wider">
           Where Cultures Bloom & Stars Shine
         </p>
-        <span className="inline-block text-3xl sm:text-4xl animate-bounce">🌸</span>
+        <span className="inline-block text-3xl sm:text-4xl animate-bounce">
+          🌸
+        </span>
       </div>
     </div>
   );
