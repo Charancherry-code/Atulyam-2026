@@ -43,20 +43,46 @@ export default function Hero() {
       const group = new THREE.Group();
 
       // Center of flower - yellow stamen
-      const centerGeometry = new THREE.SphereGeometry(0.29, 12, 12);
+      const centerGeometry = new THREE.SphereGeometry(0.32, 14, 14);
       const centerMaterial = new THREE.MeshPhongMaterial({
-        color: 0xffdd00,
-        shininess: 120,
+        color: 0xffd700,
+        shininess: 130,
         emissive: 0xffaa00,
       });
       const center = new THREE.Mesh(centerGeometry, centerMaterial);
       group.add(center);
 
-      // Create 5 petals with better shape
+      // Inner magenta layer (5 petals between main petals)
+      const innerPetalCount = 5;
+      const innerPetalMaterial = new THREE.MeshPhongMaterial({
+        color: 0xd91e63,
+        shininess: 100,
+        emissive: 0xc2185b,
+        side: THREE.DoubleSide,
+      });
+
+      for (let i = 0; i < innerPetalCount; i++) {
+        const angle =
+          (i / innerPetalCount) * Math.PI * 2 + Math.PI / innerPetalCount;
+        const innerGeometry = new THREE.SphereGeometry(0.38, 12, 12);
+        const innerPetal = new THREE.Mesh(innerGeometry, innerPetalMaterial);
+
+        innerPetal.scale.set(0.75, 1.2, 0.65);
+        innerPetal.position.x = Math.cos(angle) * 0.65;
+        innerPetal.position.y = Math.sin(angle) * 0.65;
+        innerPetal.position.z = -0.1;
+
+        innerPetal.rotation.z = angle;
+        innerPetal.rotation.x = 0.25;
+
+        group.add(innerPetal);
+      }
+
+      // Create 5 main outer petals - light pink
       const petalCount = 5;
       const petalMaterial = new THREE.MeshPhongMaterial({
-        color: 0xffc0cb,
-        shininess: 110,
+        color: 0xffb6d9,
+        shininess: 115,
         emissive: 0xff69b4,
         side: THREE.DoubleSide,
       });
@@ -67,26 +93,26 @@ export default function Hero() {
         // Create petal using LatheGeometry for more realistic shape
         const points = [
           new THREE.Vector2(0, 0),
-          new THREE.Vector2(0.12, 0.1),
-          new THREE.Vector2(0.25, 0.25),
-          new THREE.Vector2(0.32, 0.42),
-          new THREE.Vector2(0.28, 0.58),
-          new THREE.Vector2(0.18, 0.65),
-          new THREE.Vector2(0.08, 0.62),
-          new THREE.Vector2(0.02, 0.35),
+          new THREE.Vector2(0.14, 0.08),
+          new THREE.Vector2(0.28, 0.22),
+          new THREE.Vector2(0.35, 0.42),
+          new THREE.Vector2(0.32, 0.62),
+          new THREE.Vector2(0.2, 0.72),
+          new THREE.Vector2(0.09, 0.68),
+          new THREE.Vector2(0.02, 0.38),
         ];
-        const petalGeometry = new THREE.LatheGeometry(points, 12);
+        const petalGeometry = new THREE.LatheGeometry(points, 14);
         const petal = new THREE.Mesh(petalGeometry, petalMaterial);
 
         // Scale and position petal
-        petal.scale.set(0.68, 0.78, 0.59);
-        petal.position.x = Math.cos(angle) * 0.784;
-        petal.position.y = Math.sin(angle) * 0.784;
-        petal.position.z = -0.15;
+        petal.scale.set(0.7, 0.82, 0.62);
+        petal.position.x = Math.cos(angle) * 0.92;
+        petal.position.y = Math.sin(angle) * 0.92;
+        petal.position.z = -0.2;
 
         // Rotate petal to face outward
         petal.rotation.z = angle;
-        petal.rotation.x = 0.3;
+        petal.rotation.x = 0.35;
 
         group.add(petal);
       }
