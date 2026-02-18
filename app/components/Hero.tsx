@@ -7,7 +7,7 @@ export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
-  const blossomMeshesRef = useRef<THREE.Mesh[]>([]);
+  const blossomMeshesRef = useRef<THREE.Group[]>([]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -38,38 +38,77 @@ export default function Hero() {
     pointLight.position.set(10, 15, 20);
     scene.add(pointLight);
 
-    // Create cherry blossom particles
-    const createBlossom = () => {
-      const geometry = new THREE.ConeGeometry(0.8, 1.5, 5);
-      const material = new THREE.MeshPhongMaterial({
+    // Create cherry blossom flower shape function
+    const createFlowerGeometry = () => {
+      const group = new THREE.Group();
+
+      // Center of flower
+      const centerGeometry = new THREE.SphereGeometry(0.3, 8, 8);
+      const centerMaterial = new THREE.MeshPhongMaterial({
+        color: 0xffdd00,
+        shininess: 100,
+        emissive: 0xffaa00,
+      });
+      const center = new THREE.Mesh(centerGeometry, centerMaterial);
+      group.add(center);
+
+      // Create 5 petals
+      const petalCount = 5;
+      const petalMaterial = new THREE.MeshPhongMaterial({
         color: 0xffc0cb,
         shininess: 100,
         emissive: 0xff69b4,
+        side: THREE.DoubleSide,
       });
-      const blossom = new THREE.Mesh(geometry, material);
 
-      blossom.position.set(
+      for (let i = 0; i < petalCount; i++) {
+        const angle = (i / petalCount) * Math.PI * 2;
+        
+        // Create petal as a scaled sphere with elongation
+        const petalGeometry = new THREE.SphereGeometry(0.35, 8, 8);
+        const petal = new THREE.Mesh(petalGeometry, petalMaterial);
+        
+        // Scale and position petal
+        petal.scale.set(1, 1.6, 0.6);
+        petal.position.x = Math.cos(angle) * 0.8;
+        petal.position.y = Math.sin(angle) * 0.8;
+        petal.position.z = -0.2;
+        
+        // Rotate petal to face outward
+        petal.rotation.z = angle;
+        
+        group.add(petal);
+      }
+
+      return group;
+    };
+
+    // Create cherry blossom particles
+    const createBlossom = () => {
+      const flower = createFlowerGeometry();
+
+      flower.position.set(
         (Math.random() - 0.5) * 80,
         Math.random() * 60 + 10,
-        (Math.random() - 0.5) * 80
+        (Math.random() - 0.5) * 80,
       );
 
-      blossom.rotation.set(
+      flower.rotation.set(
         Math.random() * Math.PI,
         Math.random() * Math.PI,
-        Math.random() * Math.PI
+        Math.random() * Math.PI,
       );
 
-      const scale = Math.random() * 0.4 + 0.25;
-      blossom.scale.set(scale, scale, scale);
+      const scale = Math.random() * 0.6 + 0.4;
+      flower.scale.set(scale, scale, scale);
 
-      scene.add(blossom);
-      return blossom;
+      scene.add(flower);
+      return flower;
     };
 
     // Create multiple blossoms
     const blossomCount = 40;
-    const blossoms: THREE.Mesh[] = [];
+    const blossoms: THREE.Group[] = [];
     for (let i = 0; i < blossomCount; i++) {
       blossoms.push(createBlossom());
     }
@@ -116,7 +155,10 @@ export default function Hero() {
     return () => {
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
-      if (containerRef.current && renderer.domElement.parentNode === containerRef.current) {
+      if (
+        containerRef.current &&
+        renderer.domElement.parentNode === containerRef.current
+      ) {
         containerRef.current.removeChild(renderer.domElement);
       }
       renderer.dispose();
@@ -124,7 +166,10 @@ export default function Hero() {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative min-h-screen bg-black overflow-hidden flex items-center justify-center">
+    <div
+      ref={containerRef}
+      className="relative min-h-screen bg-black overflow-hidden flex items-center justify-center"
+    >
       <style>{`
         @keyframes fadeInUp {
           from {
