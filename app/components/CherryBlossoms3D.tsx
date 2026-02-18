@@ -44,92 +44,118 @@ export default function CherryBlossoms3D() {
     pointLight.position.set(10, 10, 20);
     scene.add(pointLight);
 
-    // Create cherry blossom flower shape function
+    // Create realistic cherry blossom flower
     const createFlowerGeometry = () => {
       const group = new THREE.Group();
 
-      // Center of flower - yellow stamen (smaller, lighter)
-      const centerGeometry = new THREE.SphereGeometry(0.22, 12, 12);
-      const centerMaterial = new THREE.MeshPhongMaterial({
-        color: 0xffd700,
-        shininess: 100,
-        emissive: 0xff9800,
-        transparent: true,
-        opacity: 0.9,
-      });
-      const center = new THREE.Mesh(centerGeometry, centerMaterial);
-      group.add(center);
-
-      // Inner magenta layer (5 petals between main petals) - thinner
-      const innerPetalCount = 5;
-      const innerPetalMaterial = new THREE.MeshPhongMaterial({
-        color: 0xe91e63,
+      // Center stamen - brown/red color like real blossoms
+      const stamenGeometry = new THREE.SphereGeometry(0.2, 10, 10);
+      const stamenMaterial = new THREE.MeshPhongMaterial({
+        color: 0xa0522d,
         shininess: 80,
-        emissive: 0xad1457,
-        side: THREE.DoubleSide,
-        transparent: true,
-        opacity: 0.85,
+        emissive: 0x8b4513,
       });
+      const stamen = new THREE.Mesh(stamenGeometry, stamenMaterial);
+      group.add(stamen);
 
-      for (let i = 0; i < innerPetalCount; i++) {
-        const angle =
-          (i / innerPetalCount) * Math.PI * 2 + Math.PI / innerPetalCount;
-        const innerGeometry = new THREE.SphereGeometry(0.35, 10, 10);
-        const innerPetal = new THREE.Mesh(innerGeometry, innerPetalMaterial);
-
-        innerPetal.scale.set(0.6, 0.95, 0.48);
-        innerPetal.position.x = Math.cos(angle) * 0.65;
-        innerPetal.position.y = Math.sin(angle) * 0.65;
-        innerPetal.position.z = -0.08;
-
-        innerPetal.rotation.z = angle;
-        innerPetal.rotation.x = 0.25;
-
-        group.add(innerPetal);
+      // Add small stamens around center
+      for (let s = 0; s < 5; s++) {
+        const smallStamen = new THREE.Mesh(
+          new THREE.SphereGeometry(0.06, 8, 8),
+          new THREE.MeshPhongMaterial({
+            color: 0xcd853f,
+            shininess: 70,
+          })
+        );
+        const sAngle = (s / 5) * Math.PI * 2;
+        smallStamen.position.set(
+          Math.cos(sAngle) * 0.22,
+          Math.sin(sAngle) * 0.22,
+          0.12
+        );
+        group.add(smallStamen);
       }
 
-      // Create 5 main outer petals - light pink, delicate
+      // Create 5-6 realistic petals - white with pink edges
       const petalCount = 5;
       const petalMaterial = new THREE.MeshPhongMaterial({
-        color: 0xffc0e0,
-        shininess: 90,
-        emissive: 0xff69b4,
+        color: 0xfff5f7,
+        shininess: 100,
+        emissive: 0xffb6d9,
         side: THREE.DoubleSide,
         transparent: true,
-        opacity: 0.88,
+        opacity: 0.92,
       });
 
       for (let i = 0; i < petalCount; i++) {
         const angle = (i / petalCount) * Math.PI * 2;
 
-        // Create petal using LatheGeometry for more realistic shape - thinner
+        // More realistic petal shape - wider and rounder
         const points = [
           new THREE.Vector2(0, 0),
-          new THREE.Vector2(0.08, 0.06),
-          new THREE.Vector2(0.16, 0.18),
-          new THREE.Vector2(0.22, 0.35),
-          new THREE.Vector2(0.2, 0.52),
-          new THREE.Vector2(0.12, 0.6),
-          new THREE.Vector2(0.05, 0.56),
-          new THREE.Vector2(0.01, 0.32),
+          new THREE.Vector2(0.1, 0.05),
+          new THREE.Vector2(0.2, 0.1),
+          new THREE.Vector2(0.28, 0.25),
+          new THREE.Vector2(0.32, 0.45),
+          new THREE.Vector2(0.3, 0.65),
+          new THREE.Vector2(0.22, 0.78),
+          new THREE.Vector2(0.12, 0.85),
+          new THREE.Vector2(0.04, 0.78),
         ];
-        const petalGeometry = new THREE.LatheGeometry(points, 12);
+        const petalGeometry = new THREE.LatheGeometry(points, 14);
         const petal = new THREE.Mesh(petalGeometry, petalMaterial);
 
-        // Scale and position petal - lighter appearance
-        petal.scale.set(0.55, 0.65, 0.48);
-        petal.position.x = Math.cos(angle) * 0.95;
-        petal.position.y = Math.sin(angle) * 0.95;
-        petal.position.z = -0.12;
+        petal.scale.set(0.65, 0.85, 0.5);
+        petal.position.x = Math.cos(angle) * 0.88;
+        petal.position.y = Math.sin(angle) * 0.88;
+        petal.position.z = -0.05;
 
-        // Rotate petal to face outward
         petal.rotation.z = angle;
-        petal.rotation.x = 0.35;
+        petal.rotation.x = 0.4;
 
         group.add(petal);
       }
 
       return group;
+    };
+
+    // Create falling petal particles
+    const createFallingPetal = () => {
+      const petalMaterial = new THREE.MeshPhongMaterial({
+        color: 0xfff5f7,
+        shininess: 100,
+        emissive: 0xffb6d9,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.9,
+      });
+
+      const points = [
+        new THREE.Vector2(0, 0),
+        new THREE.Vector2(0.08, 0.05),
+        new THREE.Vector2(0.15, 0.12),
+        new THREE.Vector2(0.2, 0.3),
+        new THREE.Vector2(0.18, 0.5),
+        new THREE.Vector2(0.1, 0.62),
+        new THREE.Vector2(0.02, 0.58),
+      ];
+      const petalGeometry = new THREE.LatheGeometry(points, 12);
+      const petal = new THREE.Mesh(petalGeometry, petalMaterial);
+
+      petal.scale.set(0.52, 0.72, 0.48);
+      petal.position.set(
+        (Math.random() - 0.5) * 60,
+        Math.random() * 40 + 20,
+        (Math.random() - 0.5) * 60
+      );
+
+      petal.rotation.set(
+        Math.random() * Math.PI * 2,
+        Math.random() * Math.PI * 2,
+        Math.random() * Math.PI * 2
+      );
+
+      return petal;
     };
 
     // Create cherry blossom particles
@@ -155,33 +181,62 @@ export default function CherryBlossoms3D() {
       return flower;
     };
 
-    // Create multiple blossoms
-    const blossomCount = 30;
+    // Create multiple blossoms and falling petals
+    const blossomCount = 15;
     const blossoms: THREE.Group[] = [];
     for (let i = 0; i < blossomCount; i++) {
       blossoms.push(createBlossom());
     }
     blossomMeshesRef.current = blossoms;
 
+    // Create falling petals
+    const petalCount = 80;
+    const fallingPetals: THREE.Mesh[] = [];
+    for (let i = 0; i < petalCount; i++) {
+      const petal = createFallingPetal();
+      scene.add(petal);
+      fallingPetals.push(petal);
+    }
+
     // Animation loop
     let animationFrameId: number;
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
 
-      // Rotate and animate blossoms
+      // Rotate and animate blossoms (slower)
       blossoms.forEach((blossom, index) => {
-        blossom.rotation.x += 0.01;
-        blossom.rotation.y += 0.015;
-        blossom.rotation.z += 0.008;
+        blossom.rotation.x += 0.008;
+        blossom.rotation.y += 0.012;
+        blossom.rotation.z += 0.006;
 
-        // Gentle bobbing motion
-        blossom.position.y -= 0.05 + (index % 3) * 0.02;
+        blossom.position.y -= 0.03 + (index % 3) * 0.01;
 
-        // Reset position when below screen
-        if (blossom.position.y < -20) {
-          blossom.position.y = 40;
-          blossom.position.x = (Math.random() - 0.5) * 60;
-          blossom.position.z = (Math.random() - 0.5) * 60;
+        if (blossom.position.y < -25) {
+          blossom.position.y = 45;
+          blossom.position.x = (Math.random() - 0.5) * 65;
+          blossom.position.z = (Math.random() - 0.5) * 65;
+        }
+      });
+
+      // Animate falling petals (faster falling and spinning)
+      fallingPetals.forEach((petal, index) => {
+        petal.rotation.x += 0.025 + Math.random() * 0.01;
+        petal.rotation.y += 0.02 + Math.random() * 0.008;
+        petal.rotation.z += 0.03;
+
+        petal.position.y -= 0.12 + (index % 5) * 0.03;
+        petal.position.x += Math.sin(Date.now() * 0.0003 + index) * 0.06;
+        petal.position.z += Math.cos(Date.now() * 0.00025 + index * 0.5) * 0.03;
+
+        if (petal.position.y < -30) {
+          petal.position.y = 50;
+          petal.position.x = (Math.random() - 0.5) * 70;
+          petal.position.z = (Math.random() - 0.5) * 70;
+          petal.rotation.set(
+            Math.random() * Math.PI * 2,
+            Math.random() * Math.PI * 2,
+            Math.random() * Math.PI * 2
+          );
         }
       });
 
@@ -206,6 +261,11 @@ export default function CherryBlossoms3D() {
             (scrollProgress * 0.5 - blossom.position.x * 0.02) * 2;
           blossom.position.z += Math.sin(scrollProgress * Math.PI + index) * 5;
           blossom.rotation.z += scrollProgress * 0.1;
+        });
+        // Petals also move with scroll
+        fallingPetals.forEach((petal, index) => {
+          petal.position.x += (scrollProgress * 0.3) * Math.cos(index);
+          petal.position.z += Math.sin(scrollProgress * Math.PI + index * 0.5) * 3;
         });
       },
     });
