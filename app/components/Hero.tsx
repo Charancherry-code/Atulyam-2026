@@ -42,35 +42,39 @@ export default function Hero() {
     const createFlowerGeometry = () => {
       const group = new THREE.Group();
 
-      // Center of flower - yellow stamen
-      const centerGeometry = new THREE.SphereGeometry(0.32, 14, 14);
+      // Center of flower - yellow stamen (smaller, lighter)
+      const centerGeometry = new THREE.SphereGeometry(0.18, 12, 12);
       const centerMaterial = new THREE.MeshPhongMaterial({
         color: 0xffd700,
-        shininess: 130,
-        emissive: 0xffaa00,
+        shininess: 100,
+        emissive: 0xff9800,
+        transparent: true,
+        opacity: 0.9,
       });
       const center = new THREE.Mesh(centerGeometry, centerMaterial);
       group.add(center);
 
-      // Inner magenta layer (5 petals between main petals)
+      // Inner magenta layer (5 petals between main petals) - thinner
       const innerPetalCount = 5;
       const innerPetalMaterial = new THREE.MeshPhongMaterial({
-        color: 0xd91e63,
-        shininess: 100,
-        emissive: 0xc2185b,
+        color: 0xe91e63,
+        shininess: 80,
+        emissive: 0xad1457,
         side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.85,
       });
 
       for (let i = 0; i < innerPetalCount; i++) {
         const angle =
           (i / innerPetalCount) * Math.PI * 2 + Math.PI / innerPetalCount;
-        const innerGeometry = new THREE.SphereGeometry(0.38, 12, 12);
+        const innerGeometry = new THREE.SphereGeometry(0.28, 10, 10);
         const innerPetal = new THREE.Mesh(innerGeometry, innerPetalMaterial);
 
-        innerPetal.scale.set(0.75, 1.2, 0.65);
-        innerPetal.position.x = Math.cos(angle) * 0.65;
-        innerPetal.position.y = Math.sin(angle) * 0.65;
-        innerPetal.position.z = -0.1;
+        innerPetal.scale.set(0.6, 0.95, 0.48);
+        innerPetal.position.x = Math.cos(angle) * 0.52;
+        innerPetal.position.y = Math.sin(angle) * 0.52;
+        innerPetal.position.z = -0.08;
 
         innerPetal.rotation.z = angle;
         innerPetal.rotation.x = 0.25;
@@ -78,37 +82,39 @@ export default function Hero() {
         group.add(innerPetal);
       }
 
-      // Create 5 main outer petals - light pink
+      // Create 5 main outer petals - light pink, delicate
       const petalCount = 5;
       const petalMaterial = new THREE.MeshPhongMaterial({
-        color: 0xffb6d9,
-        shininess: 115,
+        color: 0xffc0e0,
+        shininess: 90,
         emissive: 0xff69b4,
         side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.88,
       });
 
       for (let i = 0; i < petalCount; i++) {
         const angle = (i / petalCount) * Math.PI * 2;
 
-        // Create petal using LatheGeometry for more realistic shape
+        // Create petal using LatheGeometry for more realistic shape - thinner
         const points = [
           new THREE.Vector2(0, 0),
-          new THREE.Vector2(0.14, 0.08),
-          new THREE.Vector2(0.28, 0.22),
-          new THREE.Vector2(0.35, 0.42),
-          new THREE.Vector2(0.32, 0.62),
-          new THREE.Vector2(0.2, 0.72),
-          new THREE.Vector2(0.09, 0.68),
-          new THREE.Vector2(0.02, 0.38),
+          new THREE.Vector2(0.08, 0.06),
+          new THREE.Vector2(0.16, 0.18),
+          new THREE.Vector2(0.22, 0.35),
+          new THREE.Vector2(0.2, 0.52),
+          new THREE.Vector2(0.12, 0.6),
+          new THREE.Vector2(0.05, 0.56),
+          new THREE.Vector2(0.01, 0.32),
         ];
-        const petalGeometry = new THREE.LatheGeometry(points, 14);
+        const petalGeometry = new THREE.LatheGeometry(points, 12);
         const petal = new THREE.Mesh(petalGeometry, petalMaterial);
 
-        // Scale and position petal
-        petal.scale.set(0.7, 0.82, 0.62);
-        petal.position.x = Math.cos(angle) * 0.92;
-        petal.position.y = Math.sin(angle) * 0.92;
-        petal.position.z = -0.2;
+        // Scale and position petal - lighter appearance
+        petal.scale.set(0.55, 0.65, 0.48);
+        petal.position.x = Math.cos(angle) * 0.75;
+        petal.position.y = Math.sin(angle) * 0.75;
+        petal.position.z = -0.12;
 
         // Rotate petal to face outward
         petal.rotation.z = angle;
@@ -136,7 +142,7 @@ export default function Hero() {
         Math.random() * Math.PI,
       );
 
-      const scale = Math.random() * 0.588 + 0.392;
+      const scale = Math.random() * 0.470 + 0.314;
       flower.scale.set(scale, scale, scale);
 
       scene.add(flower);
