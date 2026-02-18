@@ -57,13 +57,13 @@ export default function CherryBlossoms3D() {
       blossom.position.set(
         (Math.random() - 0.5) * 60,
         Math.random() * 40 + 20,
-        (Math.random() - 0.5) * 60
+        (Math.random() - 0.5) * 60,
       );
 
       blossom.rotation.set(
         Math.random() * Math.PI,
         Math.random() * Math.PI,
-        Math.random() * Math.PI
+        Math.random() * Math.PI,
       );
 
       const scale = Math.random() * 0.5 + 0.3;
@@ -120,7 +120,8 @@ export default function CherryBlossoms3D() {
         const scrollProgress = ScrollTrigger.getAll()[0]?.getProgress() || 0;
         blossoms.forEach((blossom, index) => {
           // Move in 3D space based on scroll
-          blossom.position.x += (scrollProgress * 0.5 - blossom.position.x * 0.02) * 2;
+          blossom.position.x +=
+            (scrollProgress * 0.5 - blossom.position.x * 0.02) * 2;
           blossom.position.z += Math.sin(scrollProgress * Math.PI + index) * 5;
           blossom.rotation.z += scrollProgress * 0.1;
         });
@@ -155,7 +156,7 @@ export default function CherryBlossoms3D() {
           height: 100%;
         }
       `}</style>
-      
+
       {/* Overlay content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
         <h2 className="text-5xl md:text-7xl font-bold mb-4 text-white drop-shadow-2xl text-center">
