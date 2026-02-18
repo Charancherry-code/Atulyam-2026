@@ -43,7 +43,10 @@ export default function CherryBlossoms() {
         const viewportCenter = window.innerHeight / 2;
 
         // Calculate scroll offset relative to this section
-        scrollOffsetRef.current = Math.max(0, scrollY - (containerTop - viewportCenter));
+        scrollOffsetRef.current = Math.max(
+          0,
+          scrollY - (containerTop - viewportCenter),
+        );
       }
     };
 
@@ -120,7 +123,10 @@ export default function CherryBlossoms() {
                 Section {item}
               </h3>
               <p className="text-gray-300 leading-relaxed">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scroll to see the cherry blossoms move diagonally across the screen in a natural falling pattern. Each blossom has its own unique animation timing and movement.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scroll
+                to see the cherry blossoms move diagonally across the screen in
+                a natural falling pattern. Each blossom has its own unique
+                animation timing and movement.
               </p>
             </div>
           ))}
