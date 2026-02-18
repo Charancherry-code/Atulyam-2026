@@ -48,41 +48,52 @@ export default function CherryBlossoms3D() {
     const createFlowerGeometry = () => {
       const group = new THREE.Group();
 
-      // Center of flower
-      const centerGeometry = new THREE.SphereGeometry(0.4, 8, 8);
+      // Center of flower - yellow stamen
+      const centerGeometry = new THREE.SphereGeometry(0.392, 12, 12);
       const centerMaterial = new THREE.MeshPhongMaterial({
         color: 0xffdd00,
-        shininess: 100,
+        shininess: 120,
         emissive: 0xffaa00,
       });
       const center = new THREE.Mesh(centerGeometry, centerMaterial);
       group.add(center);
 
-      // Create 5 petals
+      // Create 5 petals with better shape
       const petalCount = 5;
       const petalMaterial = new THREE.MeshPhongMaterial({
         color: 0xffc0cb,
-        shininess: 100,
+        shininess: 110,
         emissive: 0xff69b4,
         side: THREE.DoubleSide,
       });
 
       for (let i = 0; i < petalCount; i++) {
         const angle = (i / petalCount) * Math.PI * 2;
-        
-        // Create petal as a scaled sphere with elongation
-        const petalGeometry = new THREE.SphereGeometry(0.45, 8, 8);
+
+        // Create petal using LatheGeometry for more realistic shape
+        const points = [
+          new THREE.Vector2(0, 0),
+          new THREE.Vector2(0.12, 0.1),
+          new THREE.Vector2(0.25, 0.25),
+          new THREE.Vector2(0.32, 0.42),
+          new THREE.Vector2(0.28, 0.58),
+          new THREE.Vector2(0.18, 0.65),
+          new THREE.Vector2(0.08, 0.62),
+          new THREE.Vector2(0.02, 0.35),
+        ];
+        const petalGeometry = new THREE.LatheGeometry(points, 12);
         const petal = new THREE.Mesh(petalGeometry, petalMaterial);
-        
-        // Scale and position petal
-        petal.scale.set(1, 1.8, 0.7);
-        petal.position.x = Math.cos(angle) * 1;
-        petal.position.y = Math.sin(angle) * 1;
-        petal.position.z = -0.2;
-        
+
+        // Scale and position petal (reduced 2%)
+        petal.scale.set(0.666, 0.764, 0.578);
+        petal.position.x = Math.cos(angle) * 0.98;
+        petal.position.y = Math.sin(angle) * 0.98;
+        petal.position.z = -0.15;
+
         // Rotate petal to face outward
         petal.rotation.z = angle;
-        
+        petal.rotation.x = 0.3;
+
         group.add(petal);
       }
 
@@ -105,7 +116,7 @@ export default function CherryBlossoms3D() {
         Math.random() * Math.PI,
       );
 
-      const scale = Math.random() * 0.8 + 0.5;
+      const scale = Math.random() * 0.784 + 0.49;
       flower.scale.set(scale, scale, scale);
 
       scene.add(flower);
