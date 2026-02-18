@@ -59,19 +59,19 @@ export default function Hero() {
           new THREE.MeshPhongMaterial({
             color: 0xcd853f,
             shininess: 70,
-          })
+          }),
         );
         const sAngle = (s / 5) * Math.PI * 2;
         smallStamen.position.set(
           Math.cos(sAngle) * 0.18,
           Math.sin(sAngle) * 0.18,
-          0.1
+          0.1,
         );
         group.add(smallStamen);
       }
 
-      // Create 5-6 realistic petals - white with pink edges
-      const petalCount = 5;
+      // Create full layer of petals - white with pink edges
+      const petalCount = 8;
       const petalMaterial = new THREE.MeshPhongMaterial({
         color: 0xfff5f7,
         shininess: 100,
@@ -81,10 +81,10 @@ export default function Hero() {
         opacity: 0.92,
       });
 
+      // Main petals
       for (let i = 0; i < petalCount; i++) {
         const angle = (i / petalCount) * Math.PI * 2;
 
-        // More realistic petal shape - wider and rounder
         const points = [
           new THREE.Vector2(0, 0),
           new THREE.Vector2(0.1, 0.05),
@@ -106,6 +106,35 @@ export default function Hero() {
 
         petal.rotation.z = angle;
         petal.rotation.x = 0.4;
+
+        group.add(petal);
+      }
+
+      // Add second layer of petals offset (between main petals)
+      for (let i = 0; i < petalCount; i++) {
+        const angle = (i / petalCount) * Math.PI * 2 + Math.PI / petalCount;
+
+        const points = [
+          new THREE.Vector2(0, 0),
+          new THREE.Vector2(0.09, 0.04),
+          new THREE.Vector2(0.18, 0.09),
+          new THREE.Vector2(0.25, 0.22),
+          new THREE.Vector2(0.28, 0.4),
+          new THREE.Vector2(0.26, 0.58),
+          new THREE.Vector2(0.19, 0.7),
+          new THREE.Vector2(0.1, 0.75),
+          new THREE.Vector2(0.03, 0.7),
+        ];
+        const petalGeometry = new THREE.LatheGeometry(points, 14);
+        const petal = new THREE.Mesh(petalGeometry, petalMaterial);
+
+        petal.scale.set(0.55, 0.75, 0.45);
+        petal.position.x = Math.cos(angle) * 0.62;
+        petal.position.y = Math.sin(angle) * 0.62;
+        petal.position.z = 0.08;
+
+        petal.rotation.z = angle;
+        petal.rotation.x = 0.35;
 
         group.add(petal);
       }
@@ -140,13 +169,13 @@ export default function Hero() {
       petal.position.set(
         (Math.random() - 0.5) * 80,
         Math.random() * 60 + 20,
-        (Math.random() - 0.5) * 80
+        (Math.random() - 0.5) * 80,
       );
 
       petal.rotation.set(
         Math.random() * Math.PI * 2,
         Math.random() * Math.PI * 2,
-        Math.random() * Math.PI * 2
+        Math.random() * Math.PI * 2,
       );
 
       return petal;
@@ -221,7 +250,7 @@ export default function Hero() {
 
         // Petals fall faster than flowers
         petal.position.y -= 0.08 + (index % 5) * 0.02;
-        
+
         // Gentle swaying motion
         petal.position.x += Math.sin(Date.now() * 0.0002 + index) * 0.04;
         petal.position.z += Math.cos(Date.now() * 0.00015 + index * 0.5) * 0.02;
@@ -234,7 +263,7 @@ export default function Hero() {
           petal.rotation.set(
             Math.random() * Math.PI * 2,
             Math.random() * Math.PI * 2,
-            Math.random() * Math.PI * 2
+            Math.random() * Math.PI * 2,
           );
         }
       });

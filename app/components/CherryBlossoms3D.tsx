@@ -65,19 +65,19 @@ export default function CherryBlossoms3D() {
           new THREE.MeshPhongMaterial({
             color: 0xcd853f,
             shininess: 70,
-          })
+          }),
         );
         const sAngle = (s / 5) * Math.PI * 2;
         smallStamen.position.set(
           Math.cos(sAngle) * 0.22,
           Math.sin(sAngle) * 0.22,
-          0.12
+          0.12,
         );
         group.add(smallStamen);
       }
 
-      // Create 5-6 realistic petals - white with pink edges
-      const petalCount = 5;
+      // Create full layer of petals - white with pink edges
+      const petalCount = 8;
       const petalMaterial = new THREE.MeshPhongMaterial({
         color: 0xfff5f7,
         shininess: 100,
@@ -87,10 +87,10 @@ export default function CherryBlossoms3D() {
         opacity: 0.92,
       });
 
+      // Main petals
       for (let i = 0; i < petalCount; i++) {
         const angle = (i / petalCount) * Math.PI * 2;
 
-        // More realistic petal shape - wider and rounder
         const points = [
           new THREE.Vector2(0, 0),
           new THREE.Vector2(0.1, 0.05),
@@ -112,6 +112,35 @@ export default function CherryBlossoms3D() {
 
         petal.rotation.z = angle;
         petal.rotation.x = 0.4;
+
+        group.add(petal);
+      }
+
+      // Add second layer of petals offset (between main petals)
+      for (let i = 0; i < petalCount; i++) {
+        const angle = (i / petalCount) * Math.PI * 2 + Math.PI / petalCount;
+
+        const points = [
+          new THREE.Vector2(0, 0),
+          new THREE.Vector2(0.09, 0.04),
+          new THREE.Vector2(0.18, 0.09),
+          new THREE.Vector2(0.25, 0.22),
+          new THREE.Vector2(0.28, 0.4),
+          new THREE.Vector2(0.26, 0.58),
+          new THREE.Vector2(0.19, 0.7),
+          new THREE.Vector2(0.1, 0.75),
+          new THREE.Vector2(0.03, 0.7),
+        ];
+        const petalGeometry = new THREE.LatheGeometry(points, 14);
+        const petal = new THREE.Mesh(petalGeometry, petalMaterial);
+
+        petal.scale.set(0.55, 0.75, 0.45);
+        petal.position.x = Math.cos(angle) * 0.78;
+        petal.position.y = Math.sin(angle) * 0.78;
+        petal.position.z = 0.08;
+
+        petal.rotation.z = angle;
+        petal.rotation.x = 0.35;
 
         group.add(petal);
       }
@@ -146,13 +175,13 @@ export default function CherryBlossoms3D() {
       petal.position.set(
         (Math.random() - 0.5) * 60,
         Math.random() * 40 + 20,
-        (Math.random() - 0.5) * 60
+        (Math.random() - 0.5) * 60,
       );
 
       petal.rotation.set(
         Math.random() * Math.PI * 2,
         Math.random() * Math.PI * 2,
-        Math.random() * Math.PI * 2
+        Math.random() * Math.PI * 2,
       );
 
       return petal;
@@ -235,7 +264,7 @@ export default function CherryBlossoms3D() {
           petal.rotation.set(
             Math.random() * Math.PI * 2,
             Math.random() * Math.PI * 2,
-            Math.random() * Math.PI * 2
+            Math.random() * Math.PI * 2,
           );
         }
       });
@@ -264,8 +293,9 @@ export default function CherryBlossoms3D() {
         });
         // Petals also move with scroll
         fallingPetals.forEach((petal, index) => {
-          petal.position.x += (scrollProgress * 0.3) * Math.cos(index);
-          petal.position.z += Math.sin(scrollProgress * Math.PI + index * 0.5) * 3;
+          petal.position.x += scrollProgress * 0.3 * Math.cos(index);
+          petal.position.z +=
+            Math.sin(scrollProgress * Math.PI + index * 0.5) * 3;
         });
       },
     });
