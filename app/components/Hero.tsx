@@ -70,62 +70,63 @@ export default function Hero() {
         group.add(smallStamen);
       }
 
-      // Create full layer of petals - white with pink edges
-      const petalCount = 8;
+      // Create full layer of petals - white with pink edges, matching reference image
+      const petalCount = 12;
       const petalMaterial = new THREE.MeshPhongMaterial({
         color: 0xfff5f7,
         shininess: 100,
-        emissive: 0xffb6d9,
+        emissive: 0xffc0d9,
         side: THREE.DoubleSide,
         transparent: true,
-        opacity: 0.92,
+        opacity: 0.93,
       });
 
-      // Main petals
+      // Create delicate petal shape with wavy ruffled edges
+      const createPetalShape = () => [
+        new THREE.Vector2(0, 0),
+        new THREE.Vector2(0.08, 0.03),
+        new THREE.Vector2(0.14, 0.07),
+        new THREE.Vector2(0.19, 0.12),
+        new THREE.Vector2(0.24, 0.18),
+        new THREE.Vector2(0.28, 0.28),
+        new THREE.Vector2(0.3, 0.38),
+        new THREE.Vector2(0.31, 0.5),
+        new THREE.Vector2(0.3, 0.62),
+        new THREE.Vector2(0.27, 0.72),
+        new THREE.Vector2(0.23, 0.8),
+        new THREE.Vector2(0.18, 0.86),
+        new THREE.Vector2(0.12, 0.88),
+        new THREE.Vector2(0.06, 0.86),
+        new THREE.Vector2(0.02, 0.82),
+      ];
+
+      // Create petals arranged in fuller circular pattern
       for (let i = 0; i < petalCount; i++) {
         const angle = (i / petalCount) * Math.PI * 2;
 
-        const points = [
-          new THREE.Vector2(0, 0),
-          new THREE.Vector2(0.1, 0.05),
-          new THREE.Vector2(0.2, 0.1),
-          new THREE.Vector2(0.28, 0.25),
-          new THREE.Vector2(0.32, 0.45),
-          new THREE.Vector2(0.3, 0.65),
-          new THREE.Vector2(0.22, 0.78),
-          new THREE.Vector2(0.12, 0.85),
-          new THREE.Vector2(0.04, 0.78),
-        ];
-        const petalGeometry = new THREE.LatheGeometry(points, 14);
+        const points = createPetalShape();
+        const petalGeometry = new THREE.LatheGeometry(points, 16);
         const petal = new THREE.Mesh(petalGeometry, petalMaterial);
 
-        petal.scale.set(0.65, 0.85, 0.5);
-        petal.position.x = Math.cos(angle) * 0.7;
-        petal.position.y = Math.sin(angle) * 0.7;
-        petal.position.z = -0.05;
+        petal.scale.set(0.62, 0.82, 0.48);
+        petal.position.x = Math.cos(angle) * 0.75;
+        petal.position.y = Math.sin(angle) * 0.75;
+        petal.position.z = -0.02;
 
         petal.rotation.z = angle;
-        petal.rotation.x = 0.4;
+        petal.rotation.x = 0.35 + Math.random() * 0.1;
+        petal.rotation.y = Math.random() * 0.2;
 
         group.add(petal);
       }
 
-      // Add second layer of petals offset (between main petals)
-      for (let i = 0; i < petalCount; i++) {
-        const angle = (i / petalCount) * Math.PI * 2 + Math.PI / petalCount;
+      // Add subtle second layer petals for fuller appearance
+      const petalCount2 = 12;
+      for (let i = 0; i < petalCount2; i++) {
+        const angle = (i / petalCount2) * Math.PI * 2 + Math.PI / petalCount2;
 
-        const points = [
-          new THREE.Vector2(0, 0),
-          new THREE.Vector2(0.09, 0.04),
-          new THREE.Vector2(0.18, 0.09),
-          new THREE.Vector2(0.25, 0.22),
-          new THREE.Vector2(0.28, 0.4),
-          new THREE.Vector2(0.26, 0.58),
-          new THREE.Vector2(0.19, 0.7),
-          new THREE.Vector2(0.1, 0.75),
-          new THREE.Vector2(0.03, 0.7),
-        ];
-        const petalGeometry = new THREE.LatheGeometry(points, 14);
+        const points = createPetalShape();
+        const petalGeometry = new THREE.LatheGeometry(points, 16);
         const petal = new THREE.Mesh(petalGeometry, petalMaterial);
 
         petal.scale.set(0.55, 0.75, 0.45);
