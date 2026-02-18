@@ -1,17 +1,32 @@
 export default function Hero() {
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-7xl font-bold mb-4 bg-linear-to-r from-yellow-400 via-red-400 to-pink-400 bg-clip-text text-transparent">
+    <div className="min-h-screen bg-black flex items-center justify-center overflow-hidden">
+      <style>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fade-in-up {
+          animation: fadeInUp 0.8s ease-out;
+        }
+      `}</style>
+      <div className="text-center animate-fade-in-up">
+        <h1 className="text-7xl font-bold mb-6 bg-linear-to-r from-yellow-400 via-red-400 to-pink-400 bg-clip-text text-transparent drop-shadow-lg">
           ATULYAM
         </h1>
-        <h2 className="text-5xl mb-2 bg-linear-to-r from-rose-300 to-pink-300 bg-clip-text text-transparent">
+        <h2 className="text-5xl mb-3 bg-linear-to-r from-rose-300 to-pink-300 bg-clip-text text-transparent drop-shadow-lg">
           Haru no Stars
         </h2>
-        <p className="text-lg text-gray-300 italic">
+        <p className="text-lg text-gray-300 italic mb-4 tracking-wider">
           Where Cultures Bloom & Stars Shine
         </p>
-        <span className="text-3xl ml-2">🌸</span>
+        <span className="inline-block text-4xl animate-bounce">🌸</span>
       </div>
     </div>
   );
