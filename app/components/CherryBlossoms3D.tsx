@@ -275,7 +275,7 @@ export default function CherryBlossoms3D() {
     animate();
 
     // Scroll animation with GSAP
-    gsap.to(blossoms, {
+    const scrollTween = gsap.to(blossoms, {
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top center",
@@ -315,6 +315,7 @@ export default function CherryBlossoms3D() {
     return () => {
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
+      scrollTween.kill();
       containerRef.current?.removeChild(renderer.domElement);
       renderer.dispose();
     };
