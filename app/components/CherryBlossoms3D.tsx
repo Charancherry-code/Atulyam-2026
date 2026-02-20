@@ -283,8 +283,8 @@ export default function CherryBlossoms3D() {
         scrub: 1,
         markers: false,
       },
-      onUpdate: () => {
-        const scrollProgress = ScrollTrigger.getAll()[0]?.progress || 0;
+      onUpdate: (self) => {
+        const scrollProgress = self.progress;
         blossoms.forEach((blossom, index) => {
           // Move in 3D space based on scroll
           blossom.position.x +=
