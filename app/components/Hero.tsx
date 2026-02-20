@@ -328,7 +328,10 @@ export default function Hero() {
       `}</style>
 
       {/* Hero content on top of 3D scene */}
-      <div className="absolute inset-0 flex items-center justify-center z-10">
+      <div
+        className="absolute inset-0 flex items-center justify-center z-10"
+        aria-label="ATULYAM hero content"
+      >
         <div className="text-center animate-fade-in-up px-4">
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 bg-linear-to-r from-yellow-400 via-red-400 to-pink-400 bg-clip-text text-transparent drop-shadow-lg">
             ATULYAM
@@ -339,7 +342,11 @@ export default function Hero() {
           <p className="text-sm sm:text-base md:text-lg text-gray-300 italic mb-4 tracking-wider">
             Where Cultures Bloom & Stars Shine
           </p>
-          <span className="inline-block text-3xl sm:text-4xl animate-bounce">
+          <span
+            className="inline-block text-3xl sm:text-4xl animate-bounce"
+            role="img"
+            aria-label="Cherry blossom"
+          >
             🌸
           </span>
         </div>
