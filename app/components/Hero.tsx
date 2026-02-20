@@ -279,6 +279,7 @@ export default function Hero() {
       const newHeight = window.innerHeight;
       camera.aspect = newWidth / newHeight;
       camera.updateProjectionMatrix();
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setSize(newWidth, newHeight);
     };
 
