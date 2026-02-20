@@ -334,10 +334,10 @@ export default function CherryBlossoms3D() {
       {/* Overlay content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
         <h2 className="text-5xl md:text-7xl font-bold mb-4 text-white drop-shadow-2xl text-center">
-          3D Cherry Blossoms
+          Sakura in Motion
         </h2>
         <p className="text-xl text-gray-200 drop-shadow-lg text-center px-4">
-          Scroll to see them dance in 3D space ↓
+          Scroll to watch blossoms drift through depth ↓
         </p>
       </div>
     </div>
