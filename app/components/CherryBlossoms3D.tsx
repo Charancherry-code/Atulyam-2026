@@ -16,6 +16,9 @@ export default function CherryBlossoms3D() {
 
   useEffect(() => {
     if (!containerRef.current) return;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
     // Scene setup
     const scene = new THREE.Scene();
@@ -212,7 +215,7 @@ export default function CherryBlossoms3D() {
     };
 
     // Create multiple blossoms and falling petals
-    const blossomCount = 15;
+    const blossomCount = prefersReducedMotion ? 8 : 15;
     const blossoms: THREE.Group[] = [];
     for (let i = 0; i < blossomCount; i++) {
       blossoms.push(createBlossom());
@@ -220,7 +223,7 @@ export default function CherryBlossoms3D() {
     blossomMeshesRef.current = blossoms;
 
     // Create falling petals
-    const petalCount = 80;
+    const petalCount = prefersReducedMotion ? 24 : 80;
     const fallingPetals: THREE.Mesh[] = [];
     for (let i = 0; i < petalCount; i++) {
       const petal = createFallingPetal();
@@ -232,14 +235,15 @@ export default function CherryBlossoms3D() {
     let animationFrameId: number;
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
+      const motionFactor = prefersReducedMotion ? 0.4 : 1;
 
       // Rotate and animate blossoms (slower)
       blossoms.forEach((blossom, index) => {
-        blossom.rotation.x += 0.008;
-        blossom.rotation.y += 0.012;
-        blossom.rotation.z += 0.006;
+        blossom.rotation.x += 0.008 * motionFactor;
+        blossom.rotation.y += 0.012 * motionFactor;
+        blossom.rotation.z += 0.006 * motionFactor;
 
-        blossom.position.y -= 0.03 + (index % 3) * 0.01;
+        blossom.position.y -= (0.03 + (index % 3) * 0.01) * motionFactor;
 
         if (blossom.position.y < -25) {
           blossom.position.y = 45;
@@ -250,13 +254,15 @@ export default function CherryBlossoms3D() {
 
       // Animate falling petals (faster falling and spinning)
       fallingPetals.forEach((petal, index) => {
-        petal.rotation.x += 0.025 + Math.random() * 0.01;
-        petal.rotation.y += 0.02 + Math.random() * 0.008;
-        petal.rotation.z += 0.03;
+        petal.rotation.x += (0.025 + Math.random() * 0.01) * motionFactor;
+        petal.rotation.y += (0.02 + Math.random() * 0.008) * motionFactor;
+        petal.rotation.z += 0.03 * motionFactor;
 
-        petal.position.y -= 0.12 + (index % 5) * 0.03;
-        petal.position.x += Math.sin(Date.now() * 0.0003 + index) * 0.06;
-        petal.position.z += Math.cos(Date.now() * 0.00025 + index * 0.5) * 0.03;
+        petal.position.y -= (0.12 + (index % 5) * 0.03) * motionFactor;
+        petal.position.x +=
+          Math.sin(Date.now() * 0.0003 + index) * 0.06 * motionFactor;
+        petal.position.z +=
+          Math.cos(Date.now() * 0.00025 + index * 0.5) * 0.03 * motionFactor;
 
         if (petal.position.y < -30) {
           petal.position.y = 50;
@@ -275,31 +281,34 @@ export default function CherryBlossoms3D() {
     animate();
 
     // Scroll animation with GSAP
-    const scrollTween = gsap.to(blossoms, {
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top center",
-        end: "bottom center",
-        scrub: 1,
-        markers: false,
-      },
-      onUpdate: (self) => {
-        const scrollProgress = self.progress;
-        blossoms.forEach((blossom, index) => {
-          // Move in 3D space based on scroll
-          blossom.position.x +=
-            (scrollProgress * 0.5 - blossom.position.x * 0.02) * 2;
-          blossom.position.z += Math.sin(scrollProgress * Math.PI + index) * 5;
-          blossom.rotation.z += scrollProgress * 0.1;
-        });
-        // Petals also move with scroll
-        fallingPetals.forEach((petal, index) => {
-          petal.position.x += scrollProgress * 0.3 * Math.cos(index);
-          petal.position.z +=
-            Math.sin(scrollProgress * Math.PI + index * 0.5) * 3;
-        });
-      },
-    });
+    let scrollTween: gsap.core.Tween | null = null;
+    if (!prefersReducedMotion) {
+      scrollTween = gsap.to(blossoms, {
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top center",
+          end: "bottom center",
+          scrub: 1,
+          markers: false,
+        },
+        onUpdate: (self) => {
+          const scrollProgress = self.progress;
+          blossoms.forEach((blossom, index) => {
+            // Move in 3D space based on scroll
+            blossom.position.x +=
+              (scrollProgress * 0.5 - blossom.position.x * 0.02) * 2;
+            blossom.position.z += Math.sin(scrollProgress * Math.PI + index) * 5;
+            blossom.rotation.z += scrollProgress * 0.1;
+          });
+          // Petals also move with scroll
+          fallingPetals.forEach((petal, index) => {
+            petal.position.x += scrollProgress * 0.3 * Math.cos(index);
+            petal.position.z +=
+              Math.sin(scrollProgress * Math.PI + index * 0.5) * 3;
+          });
+        },
+      });
+    }
 
     // Handle window resize
     const handleResize = () => {
@@ -316,7 +325,7 @@ export default function CherryBlossoms3D() {
     return () => {
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
-      scrollTween.kill();
+      scrollTween?.kill();
       if (
         containerRef.current &&
         renderer.domElement.parentNode === containerRef.current
