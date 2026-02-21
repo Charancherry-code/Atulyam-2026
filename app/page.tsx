@@ -5,7 +5,9 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <CherryBlossoms3D />
+      <section aria-label="Cherry blossom motion experience">
+        <CherryBlossoms3D />
+      </section>
     </>
   );
 }
