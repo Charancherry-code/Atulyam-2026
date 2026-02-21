@@ -32,7 +32,7 @@ export default function CherryBlossoms3D() {
     // Renderer setup
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     containerRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
@@ -307,6 +307,7 @@ export default function CherryBlossoms3D() {
       const newHeight = window.innerHeight;
       camera.aspect = newWidth / newHeight;
       camera.updateProjectionMatrix();
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setSize(newWidth, newHeight);
     };
 
@@ -316,7 +317,12 @@ export default function CherryBlossoms3D() {
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
       scrollTween.kill();
-      containerRef.current?.removeChild(renderer.domElement);
+      if (
+        containerRef.current &&
+        renderer.domElement.parentNode === containerRef.current
+      ) {
+        containerRef.current.removeChild(renderer.domElement);
+      }
       renderer.dispose();
     };
   }, []);
