@@ -36,7 +36,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <a
+          href="#main-content"
+          className="absolute left-3 top-3 z-50 -translate-y-16 rounded-md bg-white px-3 py-2 text-black transition focus:translate-y-0"
+        >
+          Skip to content
+        </a>
+        <main id="main-content">{children}</main>
       </body>
     </html>
   );
