@@ -223,9 +223,11 @@ export default function Hero() {
     }
 
     // Animation loop
+    const clock = new THREE.Clock();
     let animationFrameId: number;
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
+      const elapsed = clock.getElapsedTime();
 
       // Animate blossoms (slower falling)
       blossoms.forEach((blossom, index) => {
@@ -234,7 +236,7 @@ export default function Hero() {
         blossom.rotation.z += 0.006;
 
         blossom.position.y -= 0.02 + (index % 3) * 0.005;
-        blossom.position.x += Math.sin(Date.now() * 0.00008 + index) * 0.015;
+        blossom.position.x += Math.sin(elapsed * 0.8 + index) * 0.015;
 
         if (blossom.position.y < -30) {
           blossom.position.y = 45;
@@ -253,8 +255,8 @@ export default function Hero() {
         petal.position.y -= 0.08 + (index % 5) * 0.02;
 
         // Gentle swaying motion
-        petal.position.x += Math.sin(Date.now() * 0.0002 + index) * 0.04;
-        petal.position.z += Math.cos(Date.now() * 0.00015 + index * 0.5) * 0.02;
+        petal.position.x += Math.sin(elapsed * 2 + index) * 0.04;
+        petal.position.z += Math.cos(elapsed * 1.5 + index * 0.5) * 0.02;
 
         // Reset when below screen
         if (petal.position.y < -35) {
