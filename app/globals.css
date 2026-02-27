@@ -27,6 +27,15 @@ body {
   line-height: 1.5;
 }
 
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--foreground) 22%, transparent);
+}
+
 html {
   scroll-behavior: smooth;
 }
