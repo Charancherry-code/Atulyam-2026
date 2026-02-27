@@ -10,6 +10,11 @@ interface Blossom {
   size: number;
 }
 
+const pseudoRandom = (seed: number) => {
+  const value = Math.sin(seed * 9999.1) * 10000;
+  return value - Math.floor(value);
+};
+
 export default function CherryBlossoms() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scrollOffset, setScrollOffset] = useState(0);
@@ -17,10 +22,10 @@ export default function CherryBlossoms() {
     const count = 20;
     return Array.from({ length: count }, (_, index) => ({
       id: index,
-      left: Math.random() * 100,
-      delay: Math.random() * 2,
-      duration: 8 + Math.random() * 4,
-      size: 10 + Math.random() * 20,
+      left: pseudoRandom(index + 1) * 100,
+      delay: pseudoRandom(index + 101) * 2,
+      duration: 8 + pseudoRandom(index + 201) * 4,
+      size: 10 + pseudoRandom(index + 301) * 20,
     }));
   }, []);
 
@@ -36,7 +41,10 @@ export default function CherryBlossoms() {
         const viewportCenter = window.innerHeight / 2;
 
         // Calculate scroll offset relative to this section
-        const nextOffset = Math.max(0, scrollY - (containerTop - viewportCenter));
+        const nextOffset = Math.max(
+          0,
+          scrollY - (containerTop - viewportCenter),
+        );
         cancelAnimationFrame(frameId);
         frameId = requestAnimationFrame(() => setScrollOffset(nextOffset));
       }

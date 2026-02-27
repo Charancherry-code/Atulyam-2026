@@ -16,6 +16,7 @@ export default function CherryBlossoms3D() {
 
   useEffect(() => {
     if (!containerRef.current) return;
+    const container = containerRef.current;
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -36,7 +37,7 @@ export default function CherryBlossoms3D() {
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    containerRef.current.appendChild(renderer.domElement);
+    container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
     // Lighting
@@ -348,10 +349,10 @@ export default function CherryBlossoms3D() {
       blossoms.forEach(disposeObject3D);
       fallingPetals.forEach(disposeObject3D);
       if (
-        containerRef.current &&
-        renderer.domElement.parentNode === containerRef.current
+        container &&
+        renderer.domElement.parentNode === container
       ) {
-        containerRef.current.removeChild(renderer.domElement);
+        container.removeChild(renderer.domElement);
       }
       renderer.dispose();
     };

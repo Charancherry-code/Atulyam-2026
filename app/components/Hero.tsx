@@ -11,6 +11,7 @@ export default function Hero() {
 
   useEffect(() => {
     if (!containerRef.current) return;
+    const container = containerRef.current;
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -30,7 +31,7 @@ export default function Hero() {
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    containerRef.current.appendChild(renderer.domElement);
+    container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
     // Lighting
@@ -318,11 +319,8 @@ export default function Hero() {
       blossoms.forEach(disposeObject3D);
       fallingPetals.forEach(disposeObject3D);
 
-      if (
-        containerRef.current &&
-        renderer.domElement.parentNode === containerRef.current
-      ) {
-        containerRef.current.removeChild(renderer.domElement);
+      if (container && renderer.domElement.parentNode === container) {
+        container.removeChild(renderer.domElement);
       }
       renderer.dispose();
     };
