@@ -53,7 +53,7 @@ export default function CherryBlossoms() {
   return (
     <div
       ref={containerRef}
-      className="relative min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-black overflow-hidden py-20 px-4"
+      className="relative min-h-screen bg-linear-to-b from-slate-900 via-slate-800 to-black overflow-hidden py-20 px-4"
     >
       <style>{`
         @keyframes fall {
@@ -113,7 +113,7 @@ export default function CherryBlossoms() {
           {[1, 2, 3, 4].map((item) => (
             <div
               key={item}
-              className="bg-gradient-to-r from-pink-500/20 to-rose-500/20 backdrop-blur-sm p-8 rounded-lg border border-pink-400/30 hover:border-pink-400/60 transition-all"
+              className="bg-linear-to-r from-pink-500/20 to-rose-500/20 backdrop-blur-sm p-8 rounded-lg border border-pink-400/30 hover:border-pink-400/60 transition-all"
             >
               <h3 className="text-2xl font-bold text-pink-300 mb-3">
                 Section {item}
