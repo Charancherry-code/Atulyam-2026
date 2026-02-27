@@ -17,6 +17,7 @@ Visit [http://localhost:3000](http://localhost:3000).
 - `npm run build` — create production build
 - `npm run start` — run production build
 - `npm run lint` — run lint checks
+- `npm run typecheck` — run TypeScript checks
 
 ## Project structure
 
@@ -24,6 +25,7 @@ Visit [http://localhost:3000](http://localhost:3000).
 - `app/page.tsx` — homepage composition
 - `app/components/Hero.tsx` — hero 3D blossom scene
 - `app/components/CherryBlossoms3D.tsx` — scroll-reactive 3D blossom section
+- `app/components/CherryBlossoms.tsx` — alternate 2D blossom section (optional)
 - `app/globals.css` — global theme and base styles
 
 ## Accessibility + performance notes
