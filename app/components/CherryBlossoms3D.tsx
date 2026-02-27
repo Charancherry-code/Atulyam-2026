@@ -321,12 +321,32 @@ export default function CherryBlossoms3D() {
       renderer.setSize(newWidth, newHeight);
     };
 
+    const disposeObject3D = (object: THREE.Object3D) => {
+      object.traverse((child) => {
+        const mesh = child as THREE.Mesh;
+        if (mesh.geometry) {
+          mesh.geometry.dispose();
+        }
+
+        const { material } = mesh;
+        if (!material) return;
+
+        if (Array.isArray(material)) {
+          material.forEach((mat) => mat.dispose());
+        } else {
+          material.dispose();
+        }
+      });
+    };
+
     window.addEventListener("resize", handleResize);
 
     return () => {
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
       scrollTween?.kill();
+      blossoms.forEach(disposeObject3D);
+      fallingPetals.forEach(disposeObject3D);
       if (
         containerRef.current &&
         renderer.domElement.parentNode === containerRef.current
