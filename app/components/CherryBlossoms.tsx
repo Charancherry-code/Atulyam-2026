@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 interface Blossom {
   id: number;
@@ -12,27 +12,20 @@ interface Blossom {
 
 export default function CherryBlossoms() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const blossoms = useRef<Blossom[]>([]);
-  const scrollOffsetRef = useRef(0);
+  const [scrollOffset, setScrollOffset] = useState(0);
+  const blossoms = useMemo<Blossom[]>(() => {
+    const count = 20;
+    return Array.from({ length: count }, (_, index) => ({
+      id: index,
+      left: Math.random() * 100,
+      delay: Math.random() * 2,
+      duration: 8 + Math.random() * 4,
+      size: 10 + Math.random() * 20,
+    }));
+  }, []);
 
   useEffect(() => {
-    // Generate random blossoms
-    const generateBlossoms = () => {
-      const count = 20;
-      const newBlossoms: Blossom[] = [];
-      for (let i = 0; i < count; i++) {
-        newBlossoms.push({
-          id: i,
-          left: Math.random() * 100,
-          delay: Math.random() * 2,
-          duration: 8 + Math.random() * 4,
-          size: 10 + Math.random() * 20,
-        });
-      }
-      blossoms.current = newBlossoms;
-    };
-
-    generateBlossoms();
+    let frameId = 0;
 
     // Handle scroll event
     const handleScroll = () => {
@@ -43,15 +36,18 @@ export default function CherryBlossoms() {
         const viewportCenter = window.innerHeight / 2;
 
         // Calculate scroll offset relative to this section
-        scrollOffsetRef.current = Math.max(
-          0,
-          scrollY - (containerTop - viewportCenter),
-        );
+        const nextOffset = Math.max(0, scrollY - (containerTop - viewportCenter));
+        cancelAnimationFrame(frameId);
+        frameId = requestAnimationFrame(() => setScrollOffset(nextOffset));
       }
     };
 
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      cancelAnimationFrame(frameId);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
@@ -83,7 +79,7 @@ export default function CherryBlossoms() {
       `}</style>
 
       {/* Animated blossoms */}
-      {blossoms.current.map((blossom) => (
+      {blossoms.map((blossom) => (
         <div
           key={blossom.id}
           className="blossom"
@@ -93,7 +89,7 @@ export default function CherryBlossoms() {
             fontSize: `${blossom.size}px`,
             animationDelay: `${blossom.delay}s`,
             animationDuration: `${blossom.duration}s`,
-            transform: `translateX(${scrollOffsetRef.current * 0.3}px)`,
+            transform: `translateX(${scrollOffset * 0.3}px)`,
             transition: "transform 0.1s ease-out",
           }}
         >
