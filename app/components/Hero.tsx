@@ -11,6 +11,9 @@ export default function Hero() {
 
   useEffect(() => {
     if (!containerRef.current) return;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
     // Scene setup
     const scene = new THREE.Scene();
@@ -228,15 +231,17 @@ export default function Hero() {
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
       const elapsed = clock.getElapsedTime();
+      const motionFactor = prefersReducedMotion ? 0.4 : 1;
 
       // Animate blossoms (slower falling)
       blossoms.forEach((blossom, index) => {
-        blossom.rotation.x += 0.008;
-        blossom.rotation.y += 0.012;
-        blossom.rotation.z += 0.006;
+        blossom.rotation.x += 0.008 * motionFactor;
+        blossom.rotation.y += 0.012 * motionFactor;
+        blossom.rotation.z += 0.006 * motionFactor;
 
-        blossom.position.y -= 0.02 + (index % 3) * 0.005;
-        blossom.position.x += Math.sin(elapsed * 0.8 + index) * 0.015;
+        blossom.position.y -= (0.02 + (index % 3) * 0.005) * motionFactor;
+        blossom.position.x +=
+          Math.sin(elapsed * 0.8 + index) * 0.015 * motionFactor;
 
         if (blossom.position.y < -30) {
           blossom.position.y = 45;
@@ -247,16 +252,17 @@ export default function Hero() {
 
       // Animate falling petals (faster, more spin)
       fallingPetals.forEach((petal, index) => {
-        petal.rotation.x += 0.02 + Math.random() * 0.01;
-        petal.rotation.y += 0.015 + Math.random() * 0.01;
-        petal.rotation.z += 0.025;
+        petal.rotation.x += (0.02 + Math.random() * 0.01) * motionFactor;
+        petal.rotation.y += (0.015 + Math.random() * 0.01) * motionFactor;
+        petal.rotation.z += 0.025 * motionFactor;
 
         // Petals fall faster than flowers
-        petal.position.y -= 0.08 + (index % 5) * 0.02;
+        petal.position.y -= (0.08 + (index % 5) * 0.02) * motionFactor;
 
         // Gentle swaying motion
-        petal.position.x += Math.sin(elapsed * 2 + index) * 0.04;
-        petal.position.z += Math.cos(elapsed * 1.5 + index * 0.5) * 0.02;
+        petal.position.x += Math.sin(elapsed * 2 + index) * 0.04 * motionFactor;
+        petal.position.z +=
+          Math.cos(elapsed * 1.5 + index * 0.5) * 0.02 * motionFactor;
 
         // Reset when below screen
         if (petal.position.y < -35) {
