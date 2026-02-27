@@ -297,7 +297,8 @@ export default function CherryBlossoms3D() {
             // Move in 3D space based on scroll
             blossom.position.x +=
               (scrollProgress * 0.5 - blossom.position.x * 0.02) * 2;
-            blossom.position.z += Math.sin(scrollProgress * Math.PI + index) * 5;
+            blossom.position.z +=
+              Math.sin(scrollProgress * Math.PI + index) * 5;
             blossom.rotation.z += scrollProgress * 0.1;
           });
           // Petals also move with scroll
