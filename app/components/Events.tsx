@@ -1,4 +1,3 @@
-import BlossomOverlay from "./BlossomOverlay";
 
 export default function Events() {
   const events = [
@@ -29,9 +28,8 @@ export default function Events() {
   ];
 
   return (
-    <section id="events" className="py-20 bg-white/3 relative" aria-labelledby="events-title">
-      <BlossomOverlay count={14} />
-      <div className="max-w-6xl mx-auto px-6 relative">
+    <section id="events" className="py-20 bg-white/3" aria-labelledby="events-title">
+      <div className="max-w-6xl mx-auto px-6">
         <h2 id="events-title" className="text-3xl md:text-4xl font-bold text-center mb-6">Events</h2>
         <p className="text-center text-muted-foreground mb-10">Featured highlights from the ATULYAM 2026 program</p>
 
