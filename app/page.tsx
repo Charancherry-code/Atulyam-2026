@@ -1,5 +1,8 @@
 import Hero from "./components/Hero";
 import CherryBlossoms3D from "./components/CherryBlossoms3D";
+import Events from "./components/Events";
+import Sponsors from "./components/Sponsors";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
@@ -16,6 +19,12 @@ export default function Home() {
       <section id="sakura-motion" aria-label="Cherry blossom motion experience">
         <CherryBlossoms3D />
       </section>
+
+      <Events />
+
+      <Sponsors />
+
+      <Footer />
     </>
   );
 }
