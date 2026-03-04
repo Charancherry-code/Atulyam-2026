@@ -1,3 +1,5 @@
+import BlossomOverlay from "./BlossomOverlay";
+
 export default function Sponsors() {
   const sponsors = [
     { id: 1, name: "Sakura Co.", url: "#" },
