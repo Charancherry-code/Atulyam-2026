@@ -434,7 +434,7 @@ export default function CherryBlossoms3D() {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full h-screen">
+    <div ref={containerRef} className="relative w-full h-screen" aria-label="3D cherry blossom scene" tabIndex={-1}>
       <style>{`
         canvas {
           display: block;
