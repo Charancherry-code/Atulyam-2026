@@ -42,3 +42,7 @@ Visit [http://localhost:3000](http://localhost:3000).
 - Tailwind CSS
 - Three.js
 - GSAP + ScrollTrigger
+
+## Changelog
+
+- 2026-03-04: Minor accessibility and UI tweaks — added theme color, improved headings, added aria labels, CSS variable updates, and small component refinements.
