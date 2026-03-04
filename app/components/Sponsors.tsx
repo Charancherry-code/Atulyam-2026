@@ -1,4 +1,5 @@
 import ThreeDPanel from "./ThreeDPanel";
+import SectionBlossoms3D from "./SectionBlossoms3D";
 
 export default function Sponsors() {
   const sponsors = [
@@ -8,9 +9,13 @@ export default function Sponsors() {
   ];
 
   return (
-    <section id="sponsors" className="py-16" aria-labelledby="sponsor-title">
-      <div className="max-w-6xl mx-auto px-6 text-center">
-        <h2 id="sponsor-title" className="text-2xl md:text-3xl font-bold mb-6 bg-linear-to-r from-violet-300 to-fuchsia-300 bg-clip-text text-transparent">
+    <section id="sponsors" className="relative overflow-hidden py-16" aria-labelledby="sponsor-title">
+      <SectionBlossoms3D count={14} />
+      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
+        <h2
+          id="sponsor-title"
+          className="text-2xl md:text-3xl font-bold mb-6 bg-linear-to-r from-violet-300 to-fuchsia-300 bg-clip-text text-transparent"
+        >
           Sponsors
         </h2>
         <p className="text-violet-200/80 mb-8">

@@ -1,4 +1,5 @@
 import ThreeDPanel from "./ThreeDPanel";
+import SectionBlossoms3D from "./SectionBlossoms3D";
 
 export default function Events() {
   const events = [
@@ -31,10 +32,11 @@ export default function Events() {
   return (
     <section
       id="events"
-      className="py-20 bg-linear-to-b from-transparent via-fuchsia-900/10 to-violet-900/10"
+      className="relative overflow-hidden py-20 bg-linear-to-b from-transparent via-fuchsia-900/10 to-violet-900/10"
       aria-labelledby="events-title"
     >
-      <div className="max-w-6xl mx-auto px-6">
+      <SectionBlossoms3D count={18} />
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
         <h2
           id="events-title"
           className="text-3xl md:text-4xl font-bold text-center mb-6 bg-linear-to-r from-fuchsia-300 to-violet-300 bg-clip-text text-transparent"
