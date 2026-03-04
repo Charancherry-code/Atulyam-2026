@@ -6,8 +6,9 @@ export default function Sponsors() {
   ];
 
   return (
-    <section id="sponsors" className="py-16" aria-labelledby="sponsor-title">
-      <div className="max-w-6xl mx-auto px-6 text-center">
+    <section id="sponsors" className="py-16 relative" aria-labelledby="sponsor-title">
+      <BlossomOverlay count={10} />
+      <div className="max-w-6xl mx-auto px-6 text-center relative">
         <h2 id="sponsor-title" className="text-2xl md:text-3xl font-bold mb-6">Sponsors</h2>
         <p className="text-muted-foreground mb-8">We thank our generous partners and supporters</p>
 
