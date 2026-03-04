@@ -36,6 +36,7 @@ export const metadata: Metadata = {
     type: "website",
     url: "/",
   },
+  themeColor: "#ff6b81",
   twitter: {
     card: "summary_large_image",
     title: "ATULYAM 2026",
