@@ -364,7 +364,7 @@ export default function Hero() {
       {/* Hero content on top of 3D scene */}
       <div
         className="absolute inset-0 flex items-center justify-center z-10"
-        aria-label="ATULYAM hero content"
+        aria-label="ATULYAM hero 3D scene"
       >
         <div className="text-center animate-fade-in-up px-4">
           <h1
@@ -377,7 +377,10 @@ export default function Hero() {
           >
             Haru no Stars
           </h2>
-          <p className="text-sm sm:text-base md:text-lg text-gray-300 italic mb-4 tracking-wider">
+          <p
+            className="text-sm sm:text-base md:text-lg italic mb-4 tracking-wider"
+            style={{ color: "var(--accent)" }}
+          >
             Where Cultures Bloom & Stars Shine
           </p>
           <span
