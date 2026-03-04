@@ -1,4 +1,6 @@
 
+import ThreeDPanel from "./ThreeDPanel";
+
 export default function Events() {
   const events = [
     {
@@ -35,11 +37,13 @@ export default function Events() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {events.map((e) => (
-            <article key={e.id} className="p-6 rounded-lg bg-gradient-to-br from-white/5 to-white/3 border border-white/10">
-              <h3 className="text-xl font-semibold mb-2">{e.title}</h3>
-              <p className="text-sm text-muted-foreground mb-3">{e.date} • {e.time} — {e.location}</p>
-              <p className="text-sm leading-relaxed">{e.desc}</p>
-            </article>
+            <ThreeDPanel key={e.id} className="p-6 rounded-xl bg-linear-to-br from-white/10 to-white/3 border border-white/15 shadow-lg">
+              <article>
+                <h3 className="text-xl font-semibold mb-2">{e.title}</h3>
+                <p className="text-sm text-muted-foreground mb-3">{e.date} • {e.time} — {e.location}</p>
+                <p className="text-sm leading-relaxed">{e.desc}</p>
+              </article>
+            </ThreeDPanel>
           ))}
         </div>
       </div>

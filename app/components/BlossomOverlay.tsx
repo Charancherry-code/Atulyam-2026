@@ -2,14 +2,19 @@
 
 import { useMemo } from "react";
 
+const pseudoRandom = (seed: number) => {
+  const value = Math.sin(seed * 9999.1) * 10000;
+  return value - Math.floor(value);
+};
+
 export default function BlossomOverlay({ count = 20 }: { count?: number }) {
   const blossoms = useMemo(() => {
     return Array.from({ length: count }).map((_, i) => ({
       id: i,
-      left: Math.floor(Math.random() * 100),
-      delay: (Math.random() * 6).toFixed(2),
-      duration: (6 + Math.random() * 6).toFixed(2),
-      size: 12 + Math.floor(Math.random() * 28),
+      left: Math.floor(pseudoRandom(i + 11) * 100),
+      delay: (pseudoRandom(i + 101) * 6).toFixed(2),
+      duration: (6 + pseudoRandom(i + 201) * 6).toFixed(2),
+      size: 12 + Math.floor(pseudoRandom(i + 301) * 28),
     }));
   }, [count]);
 

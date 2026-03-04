@@ -1,4 +1,6 @@
 
+import ThreeDPanel from "./ThreeDPanel";
+
 export default function Sponsors() {
   const sponsors = [
     { id: 1, name: "Sakura Co.", url: "#" },
@@ -14,9 +16,11 @@ export default function Sponsors() {
 
         <div className="flex items-center justify-center gap-8 flex-wrap">
           {sponsors.map((s) => (
-            <a key={s.id} href={s.url} className="px-4 py-3 bg-white/5 rounded-md border border-white/10 hover:scale-105 transition-transform" aria-label={`${s.name} sponsor`}>
-              <span className="text-sm font-medium">{s.name}</span>
-            </a>
+            <ThreeDPanel key={s.id} className="rounded-md">
+              <a href={s.url} className="px-5 py-3 bg-white/8 rounded-md border border-white/15 hover:scale-105 transition-transform inline-block" aria-label={`${s.name} sponsor`}>
+                <span className="text-sm font-medium">{s.name}</span>
+              </a>
+            </ThreeDPanel>
           ))}
         </div>
       </div>

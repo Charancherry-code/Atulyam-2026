@@ -9,6 +9,11 @@ const audiowide = Audiowide({
   weight: ["400"],
 });
 
+type PetalUserData = {
+  rotSpeedX: number;
+  rotSpeedY: number;
+};
+
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -192,8 +197,9 @@ export default function Hero() {
       );
 
       // store per-petal rotation speeds to avoid Math.random() in animation loop
-      (petal.userData as any).rotSpeedX = 0.02 + Math.random() * 0.01;
-      (petal.userData as any).rotSpeedY = 0.015 + Math.random() * 0.01;
+      const petalUserData = petal.userData as PetalUserData;
+      petalUserData.rotSpeedX = 0.02 + Math.random() * 0.01;
+      petalUserData.rotSpeedY = 0.015 + Math.random() * 0.01;
 
       return petal;
     };
@@ -265,7 +271,7 @@ export default function Hero() {
 
       // Animate falling petals (faster, more spin)
       fallingPetals.forEach((petal, index) => {
-        const ud = petal.userData as any;
+        const ud = petal.userData as Partial<PetalUserData>;
         petal.rotation.x += (ud?.rotSpeedX ?? 0.02) * motionFactor;
         petal.rotation.y += (ud?.rotSpeedY ?? 0.015) * motionFactor;
         petal.rotation.z += 0.025 * motionFactor;

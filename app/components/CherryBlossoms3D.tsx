@@ -7,6 +7,15 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+type PetalUserData = {
+  rotSpeedX: number;
+  rotSpeedY: number;
+};
+
+type DeviceOrientationWithPermission = {
+  requestPermission?: () => Promise<"granted" | "denied">;
+};
+
 export default function CherryBlossoms3D() {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -189,8 +198,9 @@ export default function CherryBlossoms3D() {
 
       petal.rotation.set(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
 
-      (petal.userData as any).rotSpeedX = 0.025 + Math.random() * 0.01;
-      (petal.userData as any).rotSpeedY = 0.02 + Math.random() * 0.008;
+      const petalUserData = petal.userData as PetalUserData;
+      petalUserData.rotSpeedX = 0.025 + Math.random() * 0.01;
+      petalUserData.rotSpeedY = 0.02 + Math.random() * 0.008;
 
       return petal;
     };
@@ -272,7 +282,7 @@ export default function CherryBlossoms3D() {
 
       // Animate falling petals (faster falling and spinning)
       fallingPetals.forEach((petal, index) => {
-        const ud = petal.userData as any;
+        const ud = petal.userData as Partial<PetalUserData>;
         petal.rotation.x += (ud?.rotSpeedX ?? 0.025) * motionFactor;
         petal.rotation.y += (ud?.rotSpeedY ?? 0.02) * motionFactor;
         petal.rotation.z += (0.03 + (isMobile ? 0.02 : 0)) * motionFactor;
@@ -324,10 +334,12 @@ export default function CherryBlossoms3D() {
       };
 
       // iOS 13+ permission flow
-      if (
-        typeof (DeviceOrientationEvent as any)?.requestPermission === "function"
-      ) {
-        (DeviceOrientationEvent as any)
+      const orientationEventCtor =
+        DeviceOrientationEvent as unknown as typeof DeviceOrientationEvent &
+          DeviceOrientationWithPermission;
+
+      if (typeof orientationEventCtor.requestPermission === "function") {
+        orientationEventCtor
           .requestPermission()
           .then((permissionState: string) => {
             if (permissionState === "granted") enableOrientation();
