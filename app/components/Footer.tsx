@@ -14,8 +14,14 @@ export default function Footer() {
               <a href="#events" className="mr-4 text-sm hover:underline">
                 Events
               </a>
-              <a href="#sponsors" className="mr-4 text-sm hover:underline">
-                Sponsors
+              <a href="#timeline" className="mr-4 text-sm hover:underline">
+                Timeline
+              </a>
+              <a href="#about" className="mr-4 text-sm hover:underline">
+                About
+              </a>
+              <a href="#merchandise" className="mr-4 text-sm hover:underline">
+                Merchandise
               </a>
               <a href="#hero" className="text-sm hover:underline">
                 Top
