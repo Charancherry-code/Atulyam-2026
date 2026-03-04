@@ -2,10 +2,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --accent: #ff6b81;
-  --muted: #6b7280;
+  --background: #070312;
+  --foreground: #f6efff;
+  --accent: #ff2a7a;
+  --accent-secondary: #7a5cff;
+  --muted: #b7a9cf;
+  --panel: rgba(16, 8, 32, 0.62);
+  --panel-border: rgba(255, 255, 255, 0.14);
   --font-geist-sans:
     "Noto Sans JP", "M PLUS Rounded 1c", system-ui, -apple-system, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -14,28 +17,32 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background:
     radial-gradient(
+      1400px 700px at 8% 10%,
+      rgba(255, 42, 122, 0.2),
+      transparent 32%
+    ),
+    radial-gradient(
+      1100px 650px at 92% 12%,
+      rgba(122, 92, 255, 0.2),
+      transparent 34%
+    ),
+    radial-gradient(
       1200px 600px at 10% 10%,
-      rgba(255, 107, 129, 0.06),
-      transparent 8%
+      rgba(255, 107, 129, 0.09),
+      transparent 26%
     ),
     radial-gradient(
       900px 450px at 90% 90%,
-      rgba(99, 102, 241, 0.04),
-      transparent 8%
+      rgba(99, 102, 241, 0.1),
+      transparent 24%
     ),
     var(--background);
   color: var(--foreground);
@@ -45,12 +52,12 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid currentColor;
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--foreground) 22%, transparent);
+  background: color-mix(in oklab, var(--accent) 35%, transparent);
 }
 
 html {

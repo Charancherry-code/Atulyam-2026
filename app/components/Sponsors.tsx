@@ -1,4 +1,3 @@
-
 import ThreeDPanel from "./ThreeDPanel";
 
 export default function Sponsors() {
@@ -11,13 +10,21 @@ export default function Sponsors() {
   return (
     <section id="sponsors" className="py-16" aria-labelledby="sponsor-title">
       <div className="max-w-6xl mx-auto px-6 text-center">
-        <h2 id="sponsor-title" className="text-2xl md:text-3xl font-bold mb-6">Sponsors</h2>
-        <p className="text-muted-foreground mb-8">We thank our generous partners and supporters</p>
+        <h2 id="sponsor-title" className="text-2xl md:text-3xl font-bold mb-6 bg-linear-to-r from-violet-300 to-fuchsia-300 bg-clip-text text-transparent">
+          Sponsors
+        </h2>
+        <p className="text-violet-200/80 mb-8">
+          We thank our generous partners and supporters
+        </p>
 
         <div className="flex items-center justify-center gap-8 flex-wrap">
           {sponsors.map((s) => (
             <ThreeDPanel key={s.id} className="rounded-md">
-              <a href={s.url} className="px-5 py-3 bg-white/8 rounded-md border border-white/15 hover:scale-105 transition-transform inline-block" aria-label={`${s.name} sponsor`}>
+              <a
+                href={s.url}
+                className="px-5 py-3 bg-linear-to-br from-fuchsia-900/35 to-violet-900/25 rounded-md border border-fuchsia-200/20 hover:scale-105 transition-transform inline-block shadow-[0_0_16px_rgba(122,92,255,0.22)]"
+                aria-label={`${s.name} sponsor`}
+              >
                 <span className="text-sm font-medium">{s.name}</span>
               </a>
             </ThreeDPanel>

@@ -8,10 +8,13 @@ export default function Home() {
   return (
     <>
       <section id="hero" aria-labelledby="hero-title">
-        <h1 id="hero-title" className="text-4xl font-bold text-center">
+        <h1
+          id="hero-title"
+          className="text-4xl md:text-5xl font-black text-center tracking-wide bg-linear-to-r from-fuchsia-300 via-pink-300 to-violet-300 bg-clip-text text-transparent"
+        >
           ATULYAM 2026 — Haru no Stars
         </h1>
-        <p className="mt-2 text-center text-muted-foreground">
+        <p className="mt-2 text-center text-violet-200/85">
           Where cultures bloom and stars shine
         </p>
         <Hero />

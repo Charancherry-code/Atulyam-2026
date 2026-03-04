@@ -32,7 +32,7 @@ export default function CherryBlossoms3D() {
 
     // Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0f172a);
+    scene.background = new THREE.Color(0x09041a);
     sceneRef.current = scene;
 
     // Camera setup (responsive)
@@ -60,9 +60,13 @@ export default function CherryBlossoms3D() {
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambientLight);
 
-    const pointLight = new THREE.PointLight(0xffa0d2, 1, 100);
+    const pointLight = new THREE.PointLight(0xff3d9c, 1.05, 110);
     pointLight.position.set(10, 10, 20);
     scene.add(pointLight);
+
+    const fillLight = new THREE.PointLight(0x7a5cff, 0.6, 100);
+    fillLight.position.set(-10, -6, 16);
+    scene.add(fillLight);
 
     // Create realistic cherry blossom flower
     const createFlowerGeometry = () => {
@@ -194,9 +198,17 @@ export default function CherryBlossoms3D() {
       const petal = new THREE.Mesh(petalGeometry, fallingPetalMaterial);
 
       petal.scale.set(0.52, 0.72, 0.48);
-      petal.position.set((Math.random() - 0.5) * 60, Math.random() * 40 + 20, (Math.random() - 0.5) * 60);
+      petal.position.set(
+        (Math.random() - 0.5) * 60,
+        Math.random() * 40 + 20,
+        (Math.random() - 0.5) * 60,
+      );
 
-      petal.rotation.set(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
+      petal.rotation.set(
+        Math.random() * Math.PI * 2,
+        Math.random() * Math.PI * 2,
+        Math.random() * Math.PI * 2,
+      );
 
       const petalUserData = petal.userData as PetalUserData;
       petalUserData.rotSpeedX = 0.025 + Math.random() * 0.01;
@@ -288,14 +300,20 @@ export default function CherryBlossoms3D() {
         petal.rotation.z += (0.03 + (isMobile ? 0.02 : 0)) * motionFactor;
 
         petal.position.y -= (0.12 + (index % 5) * 0.03) * motionFactor;
-        petal.position.x += Math.sin(Date.now() * 0.0003 + index) * 0.06 * motionFactor;
-        petal.position.z += Math.cos(Date.now() * 0.00025 + index * 0.5) * 0.03 * motionFactor;
+        petal.position.x +=
+          Math.sin(Date.now() * 0.0003 + index) * 0.06 * motionFactor;
+        petal.position.z +=
+          Math.cos(Date.now() * 0.00025 + index * 0.5) * 0.03 * motionFactor;
 
         if (petal.position.y < -30) {
           petal.position.y = 50;
           petal.position.x = (Math.random() - 0.5) * 70;
           petal.position.z = (Math.random() - 0.5) * 70;
-          petal.rotation.set(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
+          petal.rotation.set(
+            Math.random() * Math.PI * 2,
+            Math.random() * Math.PI * 2,
+            Math.random() * Math.PI * 2,
+          );
         }
       });
 
@@ -453,10 +471,10 @@ export default function CherryBlossoms3D() {
 
       {/* Overlay content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-        <h2 className="text-5xl md:text-7xl font-bold mb-4 text-white drop-shadow-2xl text-center">
+        <h2 className="text-5xl md:text-7xl font-bold mb-4 bg-linear-to-r from-fuchsia-300 via-pink-300 to-violet-300 bg-clip-text text-transparent drop-shadow-2xl text-center">
           Sakura in Motion
         </h2>
-        <p className="text-xl text-gray-200 drop-shadow-lg text-center px-4">
+        <p className="text-xl text-violet-100/90 drop-shadow-lg text-center px-4">
           Scroll to watch blossoms drift through depth ↓
         </p>
       </div>

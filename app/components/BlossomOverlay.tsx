@@ -19,7 +19,10 @@ export default function BlossomOverlay({ count = 20 }: { count?: number }) {
   }, [count]);
 
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+    >
       <style>{`
         @keyframes blossomFall { to { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
         @keyframes blossomSway { 0% { transform: translateX(0); } 50% { transform: translateX(24px); } 100% { transform: translateX(0); } }

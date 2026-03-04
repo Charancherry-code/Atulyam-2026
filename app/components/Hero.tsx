@@ -29,7 +29,7 @@ export default function Hero() {
 
     // Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000);
+    scene.background = new THREE.Color(0x070312);
     sceneRef.current = scene;
 
     // Camera setup
@@ -49,9 +49,13 @@ export default function Hero() {
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
     scene.add(ambientLight);
 
-    const pointLight = new THREE.PointLight(0xffa0d2, 1.2, 100);
+    const pointLight = new THREE.PointLight(0xff3d9c, 1.25, 110);
     pointLight.position.set(10, 15, 20);
     scene.add(pointLight);
+
+    const fillLight = new THREE.PointLight(0x7a5cff, 0.65, 100);
+    fillLight.position.set(-12, -6, 14);
+    scene.add(fillLight);
 
     // Create realistic cherry blossom flower
     const createFlowerGeometry = () => {
@@ -281,14 +285,19 @@ export default function Hero() {
 
         // Gentle swaying motion
         petal.position.x += Math.sin(elapsed * 2 + index) * 0.04 * motionFactor;
-        petal.position.z += Math.cos(elapsed * 1.5 + index * 0.5) * 0.02 * motionFactor;
+        petal.position.z +=
+          Math.cos(elapsed * 1.5 + index * 0.5) * 0.02 * motionFactor;
 
         // Reset when below screen
         if (petal.position.y < -35) {
           petal.position.y = 50;
           petal.position.x = (Math.random() - 0.5) * 85;
           petal.position.z = (Math.random() - 0.5) * 85;
-          petal.rotation.set(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
+          petal.rotation.set(
+            Math.random() * Math.PI * 2,
+            Math.random() * Math.PI * 2,
+            Math.random() * Math.PI * 2,
+          );
         }
       });
 
@@ -343,7 +352,7 @@ export default function Hero() {
   return (
     <div
       ref={containerRef}
-      className="relative min-h-screen bg-black overflow-hidden flex items-center justify-center"
+      className="relative min-h-screen bg-[#070312] overflow-hidden flex items-center justify-center"
     >
       <style>{`
         @keyframes fadeInUp {
@@ -376,12 +385,12 @@ export default function Hero() {
       >
         <div className="text-center animate-fade-in-up px-4">
           <h1
-            className={`${audiowide.className} text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 bg-linear-to-r from-yellow-400 via-red-400 to-pink-400 bg-clip-text text-transparent drop-shadow-lg`}
+            className={`${audiowide.className} text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 bg-linear-to-r from-fuchsia-300 via-pink-300 to-violet-300 bg-clip-text text-transparent drop-shadow-lg`}
           >
             ATULYAM
           </h1>
           <h2
-            className={`${audiowide.className} text-3xl sm:text-4xl md:text-5xl mb-3 bg-linear-to-r from-rose-300 to-pink-300 bg-clip-text text-transparent drop-shadow-lg`}
+            className={`${audiowide.className} text-3xl sm:text-4xl md:text-5xl mb-3 bg-linear-to-r from-violet-300 to-fuchsia-300 bg-clip-text text-transparent drop-shadow-lg`}
           >
             Haru no Stars
           </h2>

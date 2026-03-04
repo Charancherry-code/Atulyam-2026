@@ -1,4 +1,3 @@
-
 import ThreeDPanel from "./ThreeDPanel";
 
 export default function Events() {
@@ -30,17 +29,33 @@ export default function Events() {
   ];
 
   return (
-    <section id="events" className="py-20 bg-white/3" aria-labelledby="events-title">
+    <section
+      id="events"
+      className="py-20 bg-linear-to-b from-transparent via-fuchsia-900/10 to-violet-900/10"
+      aria-labelledby="events-title"
+    >
       <div className="max-w-6xl mx-auto px-6">
-        <h2 id="events-title" className="text-3xl md:text-4xl font-bold text-center mb-6">Events</h2>
-        <p className="text-center text-muted-foreground mb-10">Featured highlights from the ATULYAM 2026 program</p>
+        <h2
+          id="events-title"
+          className="text-3xl md:text-4xl font-bold text-center mb-6 bg-linear-to-r from-fuchsia-300 to-violet-300 bg-clip-text text-transparent"
+        >
+          Events
+        </h2>
+        <p className="text-center text-violet-200/80 mb-10">
+          Featured highlights from the ATULYAM 2026 program
+        </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {events.map((e) => (
-            <ThreeDPanel key={e.id} className="p-6 rounded-xl bg-linear-to-br from-white/10 to-white/3 border border-white/15 shadow-lg">
+            <ThreeDPanel
+              key={e.id}
+              className="p-6 rounded-xl bg-linear-to-br from-fuchsia-900/35 to-violet-900/25 border border-fuchsia-200/20 shadow-[0_0_24px_rgba(255,42,122,0.2)]"
+            >
               <article>
                 <h3 className="text-xl font-semibold mb-2">{e.title}</h3>
-                <p className="text-sm text-muted-foreground mb-3">{e.date} • {e.time} — {e.location}</p>
+                <p className="text-sm text-violet-200/80 mb-3">
+                  {e.date} • {e.time} — {e.location}
+                </p>
                 <p className="text-sm leading-relaxed">{e.desc}</p>
               </article>
             </ThreeDPanel>

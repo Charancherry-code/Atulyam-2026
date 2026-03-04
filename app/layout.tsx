@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import BlossomOverlay from "./components/BlossomOverlay";
@@ -38,13 +38,16 @@ export const metadata: Metadata = {
     type: "website",
     url: "/",
   },
-  themeColor: "#ff6b81",
   twitter: {
     card: "summary_large_image",
     title: "ATULYAM 2026",
     description:
       "ATULYAM 2026 — Haru no Stars. Where Cultures Bloom & Stars Shine.",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#ff2a7a",
 };
 
 export default function RootLayout({
@@ -54,7 +57,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
         <BlossomOverlay count={36} />
 
         <SkipToContent />
