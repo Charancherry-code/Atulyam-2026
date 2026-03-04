@@ -19,7 +19,11 @@ export default function Home() {
         </p>
         <Hero />
       </section>
-      <section id="sakura-motion" aria-label="Cherry blossom motion experience">
+      <section
+        id="sakura-motion"
+        aria-label="Cherry blossom motion experience"
+        className="-mt-10"
+      >
         <CherryBlossoms3D />
       </section>
 

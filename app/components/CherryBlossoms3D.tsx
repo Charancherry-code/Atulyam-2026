@@ -457,7 +457,7 @@ export default function CherryBlossoms3D() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-screen"
+      className="relative w-full h-[60vh] min-h-105 md:h-[72vh]"
       aria-label="3D cherry blossom scene"
       tabIndex={-1}
     >

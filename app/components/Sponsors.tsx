@@ -9,7 +9,11 @@ export default function Sponsors() {
   ];
 
   return (
-    <section id="sponsors" className="relative overflow-hidden py-16" aria-labelledby="sponsor-title">
+    <section
+      id="sponsors"
+      className="relative overflow-hidden py-16"
+      aria-labelledby="sponsor-title"
+    >
       <SectionBlossoms3D count={14} />
       <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
         <h2

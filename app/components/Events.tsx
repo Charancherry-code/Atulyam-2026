@@ -32,7 +32,7 @@ export default function Events() {
   return (
     <section
       id="events"
-      className="relative overflow-hidden py-20 bg-linear-to-b from-transparent via-fuchsia-900/10 to-violet-900/10"
+      className="relative overflow-hidden pt-12 pb-20 bg-linear-to-b from-transparent via-fuchsia-900/10 to-violet-900/10"
       aria-labelledby="events-title"
     >
       <SectionBlossoms3D count={18} />

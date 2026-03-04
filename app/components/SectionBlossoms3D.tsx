@@ -9,14 +9,18 @@ type SectionBlossoms3DProps = {
 
 type BlossomSprite = THREE.Mesh<THREE.CircleGeometry, THREE.MeshBasicMaterial>;
 
-export default function SectionBlossoms3D({ count = 16 }: SectionBlossoms3DProps) {
+export default function SectionBlossoms3D({
+  count = 16,
+}: SectionBlossoms3DProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     const width = container.clientWidth || window.innerWidth;
     const height = container.clientHeight || 500;
 
@@ -38,7 +42,9 @@ export default function SectionBlossoms3D({ count = 16 }: SectionBlossoms3DProps
       depthWrite: false,
     });
 
-    const blossomCount = prefersReducedMotion ? Math.max(6, Math.floor(count * 0.55)) : count;
+    const blossomCount = prefersReducedMotion
+      ? Math.max(6, Math.floor(count * 0.55))
+      : count;
     const blossoms: BlossomSprite[] = [];
 
     for (let index = 0; index < blossomCount; index++) {
