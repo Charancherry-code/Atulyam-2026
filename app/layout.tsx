@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import BlossomOverlay from "./components/BlossomOverlay";
+import SkipToContent from "./components/SkipToContent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -56,12 +57,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <BlossomOverlay count={36} />
 
-        <a
-          href="#main-content"
-          className="absolute left-3 top-3 z-50 -translate-y-16 rounded-md bg-white px-3 py-2 text-black transition focus:translate-y-0"
-        >
-          Skip to content
-        </a>
+        <SkipToContent />
 
         <main id="main-content" className="relative z-10">
           {children}
