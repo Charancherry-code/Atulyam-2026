@@ -10,10 +10,7 @@ export default function Home() {
         </h1>
         <Hero />
       </section>
-      <section
-        id="sakura-motion"
-        aria-label="Cherry blossom motion experience"
-      >
+      <section id="sakura-motion" aria-label="Cherry blossom motion experience">
         <CherryBlossoms3D />
       </section>
     </>

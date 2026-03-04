@@ -26,11 +26,18 @@ export default function CherryBlossoms3D() {
     scene.background = new THREE.Color(0x0f172a);
     sceneRef.current = scene;
 
-    // Camera setup
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-    camera.position.z = 30;
+    // Camera setup (responsive)
+    const width = container.clientWidth || window.innerWidth;
+    const height = container.clientHeight || window.innerHeight;
+    const isMobile = width <= 768;
+    const initialFov = isMobile ? 80 : 75;
+    const camera = new THREE.PerspectiveCamera(
+      initialFov,
+      width / height,
+      0.1,
+      1000,
+    );
+    camera.position.z = isMobile ? 26 : 30;
     cameraRef.current = camera;
 
     // Renderer setup
@@ -216,7 +223,14 @@ export default function CherryBlossoms3D() {
     };
 
     // Create multiple blossoms and falling petals
-    const blossomCount = prefersReducedMotion ? 8 : 15;
+    // Adjust counts for mobile for a balance of visuals + performance
+    const blossomCount = prefersReducedMotion
+      ? isMobile
+        ? 6
+        : 8
+      : isMobile
+        ? 12
+        : 15;
     const blossoms: THREE.Group[] = [];
     for (let i = 0; i < blossomCount; i++) {
       blossoms.push(createBlossom());
@@ -224,7 +238,13 @@ export default function CherryBlossoms3D() {
     blossomMeshesRef.current = blossoms;
 
     // Create falling petals
-    const petalCount = prefersReducedMotion ? 24 : 80;
+    const petalCount = prefersReducedMotion
+      ? isMobile
+        ? 18
+        : 24
+      : isMobile
+        ? 50
+        : 80;
     const fallingPetals: THREE.Mesh[] = [];
     for (let i = 0; i < petalCount; i++) {
       const petal = createFallingPetal();
@@ -234,15 +254,16 @@ export default function CherryBlossoms3D() {
 
     // Animation loop
     let animationFrameId: number;
+    // Small motion multipliers for mobile to enhance 3D feel without overwhelming performance
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
       const motionFactor = prefersReducedMotion ? 0.4 : 1;
 
       // Rotate and animate blossoms (slower)
       blossoms.forEach((blossom, index) => {
-        blossom.rotation.x += 0.008 * motionFactor;
-        blossom.rotation.y += 0.012 * motionFactor;
-        blossom.rotation.z += 0.006 * motionFactor;
+        blossom.rotation.x += (0.008 + (isMobile ? 0.006 : 0)) * motionFactor;
+        blossom.rotation.y += (0.012 + (isMobile ? 0.01 : 0)) * motionFactor;
+        blossom.rotation.z += (0.006 + (isMobile ? 0.004 : 0)) * motionFactor;
 
         blossom.position.y -= (0.03 + (index % 3) * 0.01) * motionFactor;
 
@@ -257,7 +278,7 @@ export default function CherryBlossoms3D() {
       fallingPetals.forEach((petal, index) => {
         petal.rotation.x += (0.025 + Math.random() * 0.01) * motionFactor;
         petal.rotation.y += (0.02 + Math.random() * 0.008) * motionFactor;
-        petal.rotation.z += 0.03 * motionFactor;
+        petal.rotation.z += (0.03 + (isMobile ? 0.02 : 0)) * motionFactor;
 
         petal.position.y -= (0.12 + (index % 5) * 0.03) * motionFactor;
         petal.position.x +=
@@ -280,6 +301,53 @@ export default function CherryBlossoms3D() {
       renderer.render(scene, camera);
     };
     animate();
+
+    // Mobile device-orientation & touch parallax for extra 3D interaction
+    let touchMoveHandler: ((e: TouchEvent) => void) | null = null;
+    let orientationHandler: ((e: DeviceOrientationEvent) => void) | null = null;
+
+    if (isMobile) {
+      // Touch parallax
+      touchMoveHandler = (e: TouchEvent) => {
+        if (!e.touches || e.touches.length === 0) return;
+        const t = e.touches[0];
+        const nx = (t.clientX / width) * 2 - 1;
+        const ny = (t.clientY / height) * 2 - 1;
+        camera.position.x += (nx * 4 - camera.position.x) * 0.08;
+        camera.position.y += (-ny * 2 - camera.position.y) * 0.06;
+        camera.lookAt(0, 0, 0);
+      };
+      container.addEventListener("touchmove", touchMoveHandler, {
+        passive: true,
+      });
+
+      // Device orientation (optional - request permission on iOS when needed)
+      const enableOrientation = () => {
+        orientationHandler = (ev: DeviceOrientationEvent) => {
+          const gamma = ev.gamma || 0; // left to right
+          const beta = ev.beta || 0; // front back
+          camera.rotation.y = THREE.MathUtils.degToRad(gamma * 0.08);
+          camera.rotation.x = THREE.MathUtils.degToRad(beta * 0.04 - 2);
+        };
+        window.addEventListener("deviceorientation", orientationHandler);
+      };
+
+      // iOS 13+ permission flow
+      if (
+        typeof (DeviceOrientationEvent as any)?.requestPermission === "function"
+      ) {
+        (DeviceOrientationEvent as any)
+          .requestPermission()
+          .then((permissionState: string) => {
+            if (permissionState === "granted") enableOrientation();
+          })
+          .catch(() => {
+            /* ignore */
+          });
+      } else {
+        enableOrientation();
+      }
+    }
 
     // Scroll animation with GSAP
     let scrollTween: gsap.core.Tween | null = null;
@@ -348,10 +416,17 @@ export default function CherryBlossoms3D() {
       scrollTween?.kill();
       blossoms.forEach(disposeObject3D);
       fallingPetals.forEach(disposeObject3D);
-      if (
-        container &&
-        renderer.domElement.parentNode === container
-      ) {
+      if (touchMoveHandler)
+        container.removeEventListener(
+          "touchmove",
+          touchMoveHandler as EventListener,
+        );
+      if (orientationHandler)
+        window.removeEventListener(
+          "deviceorientation",
+          orientationHandler as EventListener,
+        );
+      if (container && renderer.domElement.parentNode === container) {
         container.removeChild(renderer.domElement);
       }
       renderer.dispose();
