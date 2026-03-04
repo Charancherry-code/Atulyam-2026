@@ -62,6 +62,7 @@ export default function CherryBlossoms() {
     <div
       ref={containerRef}
       className="relative min-h-screen bg-linear-to-b from-slate-900 via-slate-800 to-black overflow-hidden py-20 px-4"
+      aria-label="Decorative cherry blossom animation"
     >
       <style>{`
         @keyframes fall {
@@ -91,6 +92,7 @@ export default function CherryBlossoms() {
         <div
           key={blossom.id}
           className="blossom"
+          aria-hidden="true"
           style={{
             left: `${blossom.left}%`,
             top: `-${blossom.size}px`,
