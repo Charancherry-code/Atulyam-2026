@@ -153,17 +153,18 @@ export default function Hero() {
       return group;
     };
 
-    // Create falling petal particles
-    const createFallingPetal = () => {
-      const petalMaterial = new THREE.MeshPhongMaterial({
-        color: 0xfff5f7,
-        shininess: 100,
-        emissive: 0xffb6d9,
-        side: THREE.DoubleSide,
-        transparent: true,
-        opacity: 0.9,
-      });
+    // Shared falling petal material to reduce GPU state changes
+    const fallingPetalMaterial = new THREE.MeshPhongMaterial({
+      color: 0xfff5f7,
+      shininess: 100,
+      emissive: 0xffb6d9,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.9,
+    });
 
+    // Create falling petal particles (reuses material and assigns per-petal speeds)
+    const createFallingPetal = () => {
       const points = [
         new THREE.Vector2(0, 0),
         new THREE.Vector2(0.08, 0.05),
@@ -173,8 +174,9 @@ export default function Hero() {
         new THREE.Vector2(0.1, 0.62),
         new THREE.Vector2(0.02, 0.58),
       ];
-      const petalGeometry = new THREE.LatheGeometry(points, 12);
-      const petal = new THREE.Mesh(petalGeometry, petalMaterial);
+      // lower segments for lighter geometry
+      const petalGeometry = new THREE.LatheGeometry(points, 10);
+      const petal = new THREE.Mesh(petalGeometry, fallingPetalMaterial);
 
       petal.scale.set(0.5, 0.7, 0.45);
       petal.position.set(
@@ -188,6 +190,10 @@ export default function Hero() {
         Math.random() * Math.PI * 2,
         Math.random() * Math.PI * 2,
       );
+
+      // store per-petal rotation speeds to avoid Math.random() in animation loop
+      (petal.userData as any).rotSpeedX = 0.02 + Math.random() * 0.01;
+      (petal.userData as any).rotSpeedY = 0.015 + Math.random() * 0.01;
 
       return petal;
     };
@@ -259,8 +265,9 @@ export default function Hero() {
 
       // Animate falling petals (faster, more spin)
       fallingPetals.forEach((petal, index) => {
-        petal.rotation.x += (0.02 + Math.random() * 0.01) * motionFactor;
-        petal.rotation.y += (0.015 + Math.random() * 0.01) * motionFactor;
+        const ud = petal.userData as any;
+        petal.rotation.x += (ud?.rotSpeedX ?? 0.02) * motionFactor;
+        petal.rotation.y += (ud?.rotSpeedY ?? 0.015) * motionFactor;
         petal.rotation.z += 0.025 * motionFactor;
 
         // Petals fall faster than flowers
@@ -268,19 +275,14 @@ export default function Hero() {
 
         // Gentle swaying motion
         petal.position.x += Math.sin(elapsed * 2 + index) * 0.04 * motionFactor;
-        petal.position.z +=
-          Math.cos(elapsed * 1.5 + index * 0.5) * 0.02 * motionFactor;
+        petal.position.z += Math.cos(elapsed * 1.5 + index * 0.5) * 0.02 * motionFactor;
 
         // Reset when below screen
         if (petal.position.y < -35) {
           petal.position.y = 50;
           petal.position.x = (Math.random() - 0.5) * 85;
           petal.position.z = (Math.random() - 0.5) * 85;
-          petal.rotation.set(
-            Math.random() * Math.PI * 2,
-            Math.random() * Math.PI * 2,
-            Math.random() * Math.PI * 2,
-          );
+          petal.rotation.set(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
         }
       });
 

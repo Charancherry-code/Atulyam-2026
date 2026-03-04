@@ -161,16 +161,17 @@ export default function CherryBlossoms3D() {
     };
 
     // Create falling petal particles
-    const createFallingPetal = () => {
-      const petalMaterial = new THREE.MeshPhongMaterial({
-        color: 0xfff5f7,
-        shininess: 100,
-        emissive: 0xffb6d9,
-        side: THREE.DoubleSide,
-        transparent: true,
-        opacity: 0.9,
-      });
+    // shared falling petal material
+    const fallingPetalMaterial = new THREE.MeshPhongMaterial({
+      color: 0xfff5f7,
+      shininess: 100,
+      emissive: 0xffb6d9,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.9,
+    });
 
+    const createFallingPetal = () => {
       const points = [
         new THREE.Vector2(0, 0),
         new THREE.Vector2(0.08, 0.05),
@@ -180,21 +181,16 @@ export default function CherryBlossoms3D() {
         new THREE.Vector2(0.1, 0.62),
         new THREE.Vector2(0.02, 0.58),
       ];
-      const petalGeometry = new THREE.LatheGeometry(points, 12);
-      const petal = new THREE.Mesh(petalGeometry, petalMaterial);
+      const petalGeometry = new THREE.LatheGeometry(points, 10);
+      const petal = new THREE.Mesh(petalGeometry, fallingPetalMaterial);
 
       petal.scale.set(0.52, 0.72, 0.48);
-      petal.position.set(
-        (Math.random() - 0.5) * 60,
-        Math.random() * 40 + 20,
-        (Math.random() - 0.5) * 60,
-      );
+      petal.position.set((Math.random() - 0.5) * 60, Math.random() * 40 + 20, (Math.random() - 0.5) * 60);
 
-      petal.rotation.set(
-        Math.random() * Math.PI * 2,
-        Math.random() * Math.PI * 2,
-        Math.random() * Math.PI * 2,
-      );
+      petal.rotation.set(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
+
+      (petal.userData as any).rotSpeedX = 0.025 + Math.random() * 0.01;
+      (petal.userData as any).rotSpeedY = 0.02 + Math.random() * 0.008;
 
       return petal;
     };
@@ -276,25 +272,20 @@ export default function CherryBlossoms3D() {
 
       // Animate falling petals (faster falling and spinning)
       fallingPetals.forEach((petal, index) => {
-        petal.rotation.x += (0.025 + Math.random() * 0.01) * motionFactor;
-        petal.rotation.y += (0.02 + Math.random() * 0.008) * motionFactor;
+        const ud = petal.userData as any;
+        petal.rotation.x += (ud?.rotSpeedX ?? 0.025) * motionFactor;
+        petal.rotation.y += (ud?.rotSpeedY ?? 0.02) * motionFactor;
         petal.rotation.z += (0.03 + (isMobile ? 0.02 : 0)) * motionFactor;
 
         petal.position.y -= (0.12 + (index % 5) * 0.03) * motionFactor;
-        petal.position.x +=
-          Math.sin(Date.now() * 0.0003 + index) * 0.06 * motionFactor;
-        petal.position.z +=
-          Math.cos(Date.now() * 0.00025 + index * 0.5) * 0.03 * motionFactor;
+        petal.position.x += Math.sin(Date.now() * 0.0003 + index) * 0.06 * motionFactor;
+        petal.position.z += Math.cos(Date.now() * 0.00025 + index * 0.5) * 0.03 * motionFactor;
 
         if (petal.position.y < -30) {
           petal.position.y = 50;
           petal.position.x = (Math.random() - 0.5) * 70;
           petal.position.z = (Math.random() - 0.5) * 70;
-          petal.rotation.set(
-            Math.random() * Math.PI * 2,
-            Math.random() * Math.PI * 2,
-            Math.random() * Math.PI * 2,
-          );
+          petal.rotation.set(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
         }
       });
 
